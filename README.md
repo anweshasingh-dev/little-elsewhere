@@ -1,91 +1,102 @@
 # Little Elsewhere
 
-**Small adventures. A little more world.**
+I'm building Little Elsewhere to make time away from a screen feel like a small adventure. Children choose something to explore, put the device away, then return to record their discoveries.
 
-A child-friendly web app that makes stepping away from a screen feel like opening an adventure book. Choose an activity, put the device away, explore, then return to record discoveries and earn coins.
+<p align="center">
+  <img src="public/screenshots/home-current.png" alt="Little Elsewhere homepage with an explorer avatar, mood choices, today's little goal, Nature Bingo, and Little Quests" width="720" />
+</p>
 
-**Current status: functional local MVP with Visual Redesign V2 implemented.** Home, Nature Bingo, eight quests, coins, progress milestones, first-time help, and local persistence work. The interface uses a compact game HUD, matcha greens, warm ivory, local pixel typography, and an original static pixel frog. Future roadmap features remain unimplemented.
+## Why I built it
 
-## Why it exists
-Children and caregivers deserve playful invitations to observe, move, create, and spend time together, without guilt, pressure, streak penalties, or endless rewards.
+I wanted to give children a gentle reason to look around, move, create, and spend time with others. Small adventures, without streak penalties or pressure to keep playing.
 
-## Implemented MVP features
-- Illustrated 3×3 Nature Bingo with real freehand X marks, optional keyboard/button completion, completion feedback, and confirmed board replacement.
-- Eight predefined quests with indoor/adapted alternatives.
-- Finite coins with validated, duplicate-resistant awards.
-- Home with a pixel pet scene, a prominent Bingo invitation, three short quest entries, and discovery dots; four consistent navigation views and first-time help.
-- Validated local progress storage, recovery confirmation, save-failure warnings/retry, cross-tab conflict detection, responsive layouts, and accessible controls.
+## User journey
 
-Coins are recognition, not money. Each quest pays once; bingo pays once for the first line and once for a full board across the local profile. Initial maximum: 105 coins. Progress milestones are static acknowledgments. No shop or virtual world exists.
+```mermaid
+flowchart TD
+    Open["Open the app"] --> Profile["View explorer profile and selected avatar"]
+    Profile --> Mood["Choose a mood"]
+    Mood --> Goal["View today's little goal"]
+    Goal --> Choose{"Pick an adventure"}
+    Choose --> Bingo["Nature Bingo: choose a discovery"]
+    Choose --> Quest["Little Quests: start a quest"]
+    Bingo --> Activity["Put the device away and do a real-world activity"]
+    Quest --> Activity
+    Activity --> Return{"Return to the app"}
+    Return --> Mark["Bingo: draw an X or use Mark"]
+    Return --> Complete["Quest: select I did it, then claim coins"]
+    Mark --> Reward["Coins for the first bingo line or full board, or a quest claim"]
+    Complete --> Reward
+    Reward --> Next{"What next?"}
+    Next --> Choose
+    Next --> Progress["View discoveries, coins, and milestones"]
+```
 
-## Screenshots
-Actual browser captures from the local MVP (sample progress shown):
+Mood selection is optional. Today's little goal points to the first available or active quest, with a fallback suggestion when all are finished; it does not reset daily. Bingo marks only earn coins when an eligible line or full board is completed.
 
-![Home with pixel frog, Nature Bingo, compact quest entries, and progress summary](public/screenshots/home-desktop.png)
-![Nature Bingo board with safe exploration guidance](public/screenshots/bingo-desktop.png)
-![Eight compact quest entries with descriptions, alternatives, and actions](public/screenshots/quests-desktop.png)
-![Earned coins, bingo discoveries, quests, and milestone acknowledgments](public/screenshots/progress-desktop.png)
+## Features
 
-Mobile examples: [Home](public/screenshots/home-mobile.png), [Bingo](public/screenshots/bingo-mobile.png).
+- Explorer profile with an optional name and age, six selectable avatars, and five moods.
+- A 3 by 3 Nature Bingo board with freehand X marks, a Mark button, undo, and confirmed board replacement.
+- Eight Little Quests with indoor/adapted alternatives and separate start, complete, and claim steps.
+- One-time coin rewards: 10 for the first bingo line, 20 more for the first full board, and 5–15 per quest. The current maximum is 105 coins per local profile.
+- Progress showing discoveries, completed quests, coins, and three milestones. Milestones acknowledge progress without extra coins.
+- Local saves, first-time help, and warnings for failed saves, invalid data, or conflicting browser tabs.
 
-## Stack
-React 19.3.0, TypeScript 7.0.2, Vite 8.3.4, plain CSS, and Lucide React 1.55.0 interface icons. Locally bundled Press Start 2P and Nunito fonts need no network font service. Vitest 5.0.3, React Testing Library, and jsdom verify navigation. Exact dependencies are pinned in package.json and package-lock.json. localStorage persists one validated snapshot. No backend, accounts, external APIs, or state library.
+Choose safe activities with a caregiver as needed. Progress is self-reported; the app encourages putting the device away and does not close, block, or control other apps.
 
-## Installation and development
-Requires Node.js ^24.15.0 or >=26.0.0 and npm. Tested with Node 24.16.0 and npm 11.13.0; .nvmrc records the tested Node version. The higher minimum comes from the jsdom test environment; see the [Vite requirements](https://vite.dev/guide/) for the build tool baseline. From the project folder:
+## How it works
+
+```mermaid
+flowchart TD
+    UI["React pages: Home, Bingo, Quests, Progress"] -->|"User actions"| Provider["AppStateProvider dispatch"]
+    Provider --> Reducer["App reducer"]
+    Reducer --> Games["Bingo marks and quest transitions"]
+    Reducer --> Profile["Profile, mood, and avatar updates"]
+    Games --> Rewards["Reward rules and duplicate checks"]
+    Rewards --> State["Updated app state and coin ledger"]
+    Profile --> State
+    State -->|"Save through AppStateProvider"| Save["Serialize to localStorage"]
+    State -->|"Render through React context"| UI
+    Save --> Stored["Saved browser snapshot"]
+    Reopen["Reopen the app"] --> Load["Load, validate, and migrate saved data"]
+    Stored --> Load
+    Load -->|"Valid saved data"| Restore["Initialize AppStateProvider"]
+    Restore --> UI
+```
+
+The diagrams describe implemented behavior. Saves stay in the same browser and device, with one shared local profile and no backend or account sync. Clearing site storage removes progress. Invalid saves require confirmed recovery; failed saves keep progress in memory and offer a retry.
+
+## Tech stack
+
+React, TypeScript, Vite, plain CSS, and Lucide icons. Nunito and Press Start 2P fonts are bundled locally. Tests use Vitest, React Testing Library, and jsdom. Exact versions are pinned in [package.json](package.json) and package-lock.json.
+
+## Setup and run
+
+Requires Node.js `^24.15.0` or `>=26.0.0` and npm. [.nvmrc](.nvmrc) specifies the tested version, `24.16.0`.
 
 ```sh
 npm ci
 npm run dev
+```
+
+Open the URL printed by Vite, normally http://127.0.0.1:5173/. Stop the server with Ctrl+C.
+
+```sh
 npm run typecheck
-npm run test
+npm test
 npm run build
 npm run preview
 ```
 
-Dependencies are already installed in this workspace. On a fresh checkout, run npm ci first. npm run dev normally serves http://127.0.0.1:5173/; use the URL printed by Vite if that port is occupied. Stop it with Ctrl+C. npm test runs the domain, navigation, persistence, and journey suites once; npm run test:watch starts watch mode. npm run build type-checks and writes dist/; npm run preview serves that build, normally at http://127.0.0.1:4173/. Development and preview servers bind to loopback only. Hosting/deployment is not configured.
+`npm run test:watch` runs tests in watch mode. The build command checks TypeScript and writes `dist/`; preview serves that build, normally at http://127.0.0.1:4173/. Both servers bind to loopback.
 
-## Try the app
-Open Home, Bingo, Quests, and Progress using navigation (a bottom bar on mobile). Direct links such as #/quests work; unknown routes offer a return-home link. Draw two crossing diagonal strokes in a Bingo tile, or use its Mark button. Partial ink and completed X marks survive refresh. Clear ink removes unfinished drawing; Undo removes a completed mark without subtracting earned coins. Bingo detects rows, columns, diagonals, and full boards. Start a quest, put the device away, then complete and claim its coins. Claimed quests remain readable but cannot pay again. Active quests can be abandoned and restarted.
+## Current status / future plans
 
-## How to play
-1. A caregiver helps choose a safe adventure and explains the welcome.
-2. Select Bingo or start a quest; put the device away while exploring.
-3. Return to draw X marks on discoveries (or select Mark), or complete and claim a quest.
-4. See earned coins and progress, then enjoy time away from the device.
+This is a functional local MVP, and I'm still redesigning the interface. Home, Bingo, quests, profile choices, rewards, progress, and local persistence are implemented. Public deployment is not configured.
 
-Supervise as appropriate and use indoor/adapted options. Avoid handling unknown wildlife, tasting unidentified objects, or exploring unsafe places.
+Future ideas include a virtual garden, seasonal activities, family-created quests, and an explorer journal. These are not implemented or committed. Coins currently cannot be spent; there is no shop or virtual world.
 
-## Limitations
-The MVP supports one shared explorer profile in one active browser tab. Progress is self-reported and browser/device-specific, cannot sync or prove activity, and is lost when site storage is cleared. It warns about failed saves and detected competing-tab changes; local records are editable and not an anti-cheat mechanism.
+To refresh the banner, run `npm run dev`, open Home at a desktop width, dismiss welcome help, and capture the page using browser screenshot tools. Use the default profile or fictional details, then replace `public/screenshots/home-current.png` so the README path stays the same.
 
-Offline adventures do not guarantee offline website loading. No service worker or installable app is planned. A web app cannot independently lock/unlock arbitrary apps such as YouTube. Genuine enforcement needs a separate platform feasibility/privacy investigation, OS permissions, and parental consent.
-
-## Roadmap — future ideas, not implemented or committed
-- Phase 2: Grow Your World — virtual garden/forest/world, plants, decorations, animals, environments, and earned cosmetics.
-- Phase 3: Family Screen-Time Agreements — parent-controlled expectations before/after recreation or within routines, exceptions, and child-friendly explanations. Platform enforcement remains a separate investigation.
-- Phase 4: Shared Adventures — private rooms, timers, shared goals, collective progress, privacy-conscious joining, and moderation.
-- Phase 5: Explorer Journal — photographs, observations, drawings, notes, and potential identification integrations with reliable sources, uncertainty, guardian controls, and photo/location protection.
-- Additional possibilities: seasonal/themed boards, rainy-day adventures, family-created quests, ability-specific activities, collectible companions, printable cards, and family dashboard.
-
-All require separate approval and prioritization through feedback, safety, feasibility, and value.
-
-## Privacy and child safety
-Plan for no accounts, analytics, ads, photo/location collection, or application-level activity transmission. Store local activity progress and preferences only. Eventual hosting may process standard access logs; review hosting privacy separately before release. Use safe wording, caregiver guidance, accessible alternatives, and finite rewards. Future media, social, or enforcement features require separate privacy/safeguarding work.
-
-## Contributing
-Read [PRODUCT.md](PRODUCT.md), [RULES.md](RULES.md), [DESIGN.md](DESIGN.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [TASKS.md](TASKS.md). Discuss dependencies/scope before implementation. Keep changes focused, preserve working code, include meaningful verification/accessibility checks, and update docs. Never include children's personal information in examples, screenshots, logs, or issues.
-
-## License
-**Not selected.** Choose a license and add LICENSE before public release. No open-source license grant is implied by this placeholder. Review asset and dependency licenses before release.
-## Reward and storage details
-The first bingo line grants 10 coins and the first full board grants 20 additional coins, once per local profile. Every newly completed line celebrates once per board. New-board confirmation clears marks and rearranges the same nine activities; coins, award keys, and found-activity history stay. Eight one-time quest rewards total 75 coins. Coins are derived from a ledger; initial maximum is 105. No spending or purchases exist. Home's “Today's little quests” is a spotlight, not a daily reset.
-
-Progress shows distinct bingo activities ever found (maximum nine), current board marks, completed quests, coins, and three static milestones. Milestones do not pay coins or unlock a virtual world. Indoor/adapted activities have equal rewards; suggested times are not enforced.
-
-Invalid local data pauses activities and offers an explicitly confirmed reset; it is never erased automatically. Failed writes keep current memory progress but warn that refresh may lose it. Retry saves the latest snapshot. Detected changes from another tab pause mutations and require confirmed reload; simultaneous multi-tab transactions are not guaranteed.
-
-## Verification and release follow-up
-On 2026-10-10, npm test passed 46 tests in five files and npm run build passed TypeScript checking and production bundling. Real Edge checks covered all views at 320/390/768/1280 CSS pixels, browser-simulated mouse/touch/pen drawing, bounded ink, canceled strokes, keyboard bingo activation, native dialogs, actual reload persistence, legacy-save upgrades, claims, duplicates, and recovery; final browser console had no errors. Screenshots are actual captures, not mockups.
-
-Before public release, complete broader screen-reader/cross-browser and zoom checks, review activity wording with families, and select the license. No public deployment has been performed. Companion, nature illustrations, coin art, and favicon are original project artwork; interface icons use Lucide. Fonts are self-hosted. See [ASSETS.md](ASSETS.md) for sources and bundled license notices. Physical touch/stylus devices and a full screen-reader audit remain release follow-up.
+Before public release, broader accessibility and device checks, family feedback, and license selection remain. See [PRODUCT.md](PRODUCT.md) for the wider vision and [ASSETS.md](ASSETS.md) for artwork and license notices. A project license has not yet been selected.
