@@ -1,0 +1,23 @@
+:root {
+  --color-paper: #f7f7ed; --color-surface: #fffef8; --color-meadow: #dde9d2;
+  --color-sage: #a8c18d; --color-forest: #4f604d; --color-ink: #293d30;
+  --color-peach: #e9b49a; --color-brown: #a77a61; --color-sunshine: #f1d37c;
+  --color-clay: #853c2c; --color-sky: #e5ece5;
+  --font-body: 'Nunito', ui-rounded, system-ui, sans-serif;
+  --font-pixel: 'Press Start 2P', 'Courier New', monospace;
+  --content-width: 920px; --touch-target: 48px; --radius-control: 8px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px;
+  --color-divider: #cbd1be; --color-divider-soft: #d3d8c8;
+  --color-pixel-shadow: #c4cfb6; --color-tile-border: #829276;
+  --color-tile-paper: #f8f8ef; --color-backdrop: #293d3070; --color-warning: #fff1dc;
+  --border-pixel: 4px solid var(--color-forest);
+  --shadow-pixel: 4px 0 0 var(--color-forest), -4px 0 0 var(--color-forest), 0 4px 0 var(--color-forest), 0 -4px 0 var(--color-forest), 8px 8px 0 var(--color-pixel-shadow);
+}
+
+/* Storybook palette: consumed only by the Home composition. */
+:root {
+  --home-paper: #fbf6e9; --home-ink: #465543; --home-sage: #e1e8d3;
+  --home-matcha: #a7bd8f; --home-lavender: #e8e0ee; --home-sky: #dfedf1;
+  --home-yellow: #f1dfa0; --home-line: #b5bda3;
+}

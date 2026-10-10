@@ -1,0 +1,36 @@
+/* Application shell, navigation, and shared page layout. */
+.app-shell { max-width: var(--content-width); margin: auto; padding: 0 32px; }
+.site-header { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 24px 0 18px; margin-bottom: 28px; border-bottom: 1px solid var(--color-divider); }
+.brand-row { display: contents; }
+.brand { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-weight: 850; text-decoration: none; font-size: 1.1rem; }
+.brand-symbol { display: grid; place-items: center; }
+.brand-symbol .icon { width: 24px; height: 24px; }
+.header-tools { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.header-tools .button { font-size: .75rem; padding: 8px; }
+.nav-row { width: 100%; }
+.navigation { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+.navigation a { min-height: 48px; display: inline-flex; align-items: center; gap: 7px; border-bottom: 3px solid transparent; text-decoration: none; font-size: .88rem; }
+.navigation a[aria-current='page'] { border-bottom-color: var(--color-forest); font-weight: 850; }
+.navigation a:hover { color: var(--color-clay); }
+.view-content { border: 0; padding: 0; margin: 0; min-width: 0; }
+.site-footer { display: flex; justify-content: center; margin-top: 30px; padding: 20px 0; font-size: .72rem; }
+.site-footer > span { display: flex; align-items: center; gap: 6px; }
+.site-footer .icon { width: 16px; height: 16px; }
+.page-title-row { display: flex; justify-content: space-between; align-items: start; gap: 18px; margin-bottom: 22px; }
+.page-title-row p { max-width: 55ch; }
+.quests-page, .progress-page { max-width: 780px; margin: auto; }
+
+@media (max-width: 650px) {
+  .app-shell { padding: 0 18px 80px; }
+  .site-header { padding: 12px 0 10px; margin-bottom: 22px; }
+  .brand { font-size: .95rem; }
+  .header-tools { gap: 6px; }
+  .header-tools .button { font-size: .7rem; padding: 4px; }
+  .navigation { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; justify-content: space-around; gap: 6px; padding: 5px 8px calc(5px + env(safe-area-inset-bottom)); background: var(--color-paper); border-top: 1px solid var(--color-divider); }
+  .navigation a { display: flex; flex-direction: column; gap: 2px; min-width: 54px; min-height: 56px; font-size: .7rem; border-top: 3px solid transparent; border-bottom: 0; }
+  .navigation a[aria-current='page'] { border-top-color: var(--color-forest); }
+  .site-footer { margin-top: 18px; font-size: .65rem; }
+  .page-title-row { flex-wrap: wrap; }
+}
+
+

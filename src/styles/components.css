@@ -1,0 +1,33 @@
+/* Reusable controls, surfaces, artwork, and feedback. */
+.icon { width: 22px; height: 22px; flex-shrink: 0; }
+.pixel-surface { border: var(--border-pixel); border-radius: 2px; box-shadow: var(--shadow-pixel); }
+.button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: var(--touch-target); padding: 8px 16px; border: 1px solid var(--color-forest); border-radius: var(--radius-control); text-decoration: none; font-size: .88rem; font-weight: 800; }
+.button-primary { background: var(--color-forest); color: var(--color-paper); box-shadow: 0 3px 0 var(--color-ink); }
+.button-primary:hover { background: var(--color-ink); }
+.button-secondary { background: transparent; color: var(--color-ink); }
+.button-quiet { color: var(--color-ink); border-color: transparent; background: transparent; text-decoration: underline; }
+.text-link { display: inline-flex; align-items: center; gap: 6px; min-height: 48px; font-size: .85rem; }
+.small-action { border: 0; background: transparent; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; min-width: 48px; gap: 5px; font-weight: 800; font-size: .8rem; text-decoration: none; color: var(--color-ink); }
+.small-action .icon { width: 17px; height: 17px; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.section-heading h2 { margin: 0; font-size: 1.15rem; }
+.nature-art { display: block; width: 100%; height: 100%; }
+.gentle-endnote { text-align: center; font-size: .8rem; margin: 24px auto; max-width: 65ch; }
+.empty-state { padding: 24px 0; text-align: center; }
+.confirm-dialog { width: min(520px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow: auto; background: var(--color-paper); color: var(--color-ink); border: 3px solid var(--color-forest); border-radius: 3px; padding: 24px; box-shadow: 5px 5px 0 var(--color-sage); }
+.confirm-dialog::backdrop { background: var(--color-backdrop); }
+.dialog-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 12px; margin-top: 20px; }
+.help-steps { padding-left: 24px; }
+.help-steps li { margin-bottom: 10px; }
+.storage-status { border-left: 4px solid var(--color-clay); padding: 12px 20px; background: var(--color-warning); margin-bottom: 20px; }
+.storage-status h2 { color: var(--color-clay); }
+.notification-region:not(:empty) { margin-bottom: 16px; }
+.reward-toast { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: .85rem; background: var(--color-meadow); padding: 4px 12px; animation: reward-in .3s ease-out; }
+.reward-toast button { border: 0; min-height: 48px; min-width: 48px; background: transparent; color: var(--color-ink); font-size: 1.4rem; }
+@keyframes reward-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 650px) {
+  .section-heading h2 { font-size: 1.08rem; }
+}
+
+
