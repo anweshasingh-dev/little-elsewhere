@@ -1,104 +1,150 @@
-# Little Elsewhere
+<h1 align="center">Little Elsewhere</h1>
 
-I'm building Little Elsewhere to make time away from a screen feel like a small adventure. Children choose something to explore, put the device away, then return to record their discoveries.
+<p align="center"><strong>Small adventures. A little more world.</strong></p>
+<p align="center">A children's outdoor adventure journal, made for time away from the screen.</p>
 
 <p align="center">
-  <img src="public/screenshots/home-current.png" alt="Little Elsewhere homepage with an explorer avatar, mood choices, today's little goal, Nature Bingo, and Little Quests" width="720" />
+  <a href="#a-peek-inside">Screenshots</a> &middot;
+  <a href="#what-works-today">Features</a> &middot;
+  <a href="#run-it-locally">Get started</a> &middot;
+  <a href="#where-i-want-to-take-it">Future plans</a>
 </p>
 
-## Why I built it
+<p align="center">
+  <img src="public/screenshots/home-current.png" alt="Little Elsewhere Home with an illustrated landscape banner, torn-paper explorer portrait, mood cards, and Bingo and Quest invitations" width="900" />
+</p>
 
-I wanted to give children a gentle reason to look around, move, create, and spend time with others. Small adventures, without streak penalties or pressure to keep playing.
+## Why Little Elsewhere?
 
-## User journey
+I wanted to make putting a screen down feel like the beginning of something good. A cloud worth noticing. A plant to care for. A small discovery to bring back.
 
-```mermaid
-flowchart TD
-    Open["Open the app"] --> Profile["View explorer profile and selected avatar"]
-    Profile --> Mood["Choose a mood"]
-    Mood --> Goal["View today's little goal"]
-    Goal --> Choose{"Pick an adventure"}
-    Choose --> Bingo["Nature Bingo: choose a discovery"]
-    Choose --> Quest["Little Quests: start a quest"]
-    Bingo --> Activity["Put the device away and do a real-world activity"]
-    Quest --> Activity
-    Activity --> Return{"Return to the app"}
-    Return --> Mark["Bingo: draw an X or use Mark"]
-    Return --> Complete["Quest: select I did it, then claim coins"]
-    Mark --> Reward["Coins for the first bingo line or full board, or a quest claim"]
-    Complete --> Reward
-    Reward --> Next{"What next?"}
-    Next --> Choose
-    Next --> Progress["View discoveries, coins, and milestones"]
-```
+Little Elsewhere gives children a gentle prompt, then a place to record what they explored. Its warm paper surfaces, original illustrations, and scrapbook details make it feel like a personal adventure journal. There are no streak penalties or pressure to keep playing.
 
-Mood selection is optional. Today's adventure prioritizes completed quests with unclaimed coins, then active quests, then available quests, and falls back to the current Bingo board when all quests are claimed. It does not reset daily. Bingo marks only earn coins when an eligible line or full board is completed.
+**Choose an adventure. Put the device away. Explore. Come back with a discovery.**
 
-## Features
+## What works today
 
-- Explorer profile with an optional name and age, six selectable avatars, and five moods.
-- A 3 by 3 Nature Bingo board with freehand X marks, a Mark button, undo, and confirmed board replacement.
-- Eight Little Quests with indoor/adapted alternatives and separate start, complete, and claim steps.
-- One-time coin rewards: 10 for the first bingo line, 20 more for the first full board, and 5–15 per quest. The current maximum is 105 coins per local profile.
-- A recent adventure journal and backpack collection on Home, showing discoveries, completed quests, and three milestones. The compatible `#/progress` route shares these sections. Milestones acknowledge progress without extra coins.
-- Local saves, first-time help, and warnings for failed saves, invalid data, or conflicting browser tabs.
+| Part of the journal | What children can do |
+| --- | --- |
+| **My explorer** | Choose from six portraits, pick a mood, and optionally save a name and age. |
+| **Nature Bingo** | Find nine little wonders. Draw an X or use Mark, undo a discovery, and start a fresh board. |
+| **Little Quests** | Explore eight activities with a Choose / Explore / Collect trail, directions, and indoor or adapted alternatives. |
+| **Coins** | Collect rewards for a first Bingo line, a first full board, and completed quests. |
+| **Journal and backpack** | Revisit recent adventures, nature finds, and three earned milestones on Home. |
+| **A helping hand** | Reopen the play guide, read friendly safety reminders, and use touch or keyboard controls. |
 
-Choose safe activities with a caregiver as needed. Progress is self-reported; the app encourages putting the device away and does not close, block, or control other apps.
+A shared illustrated banner ties the pages together. Desktop layouts give the artwork room to breathe; mobile layouts stack naturally and keep navigation within reach.
 
-## How it works
+### A little recognition, without an endless loop
 
-```mermaid
-flowchart TD
-    UI["React pages: Home, Bingo, Quests, Progress"] -->|"User actions"| Provider["AppStateProvider dispatch"]
-    Provider --> Reducer["App reducer"]
-    Reducer --> Games["Bingo marks and quest transitions"]
-    Reducer --> Profile["Profile, mood, and avatar updates"]
-    Games --> Rewards["Reward rules and duplicate checks"]
-    Rewards --> State["Updated app state and coin ledger"]
-    Profile --> State
-    State -->|"Save through AppStateProvider"| Save["Serialize to localStorage"]
-    State -->|"Render through React context"| UI
-    Save --> Stored["Saved browser snapshot"]
-    Reopen["Reopen the app"] --> Load["Load, validate, and migrate saved data"]
-    Stored --> Load
-    Load -->|"Valid saved data"| Restore["Initialize AppStateProvider"]
-    Restore --> UI
-```
+The first Bingo line earns **10 coins**, the first full board earns **20 more**, and each quest earns **5?15**. Rewards are awarded once, for a maximum of **105 coins** in the current catalog. Undoing marks or starting a new board does not award the same coins again. Milestones do not add extra rewards, and coins cannot currently be spent.
 
-The diagrams describe implemented behavior. Saves stay in the same browser and device, with one shared local profile and no backend or account sync. Clearing site storage removes progress. Invalid saves require confirmed recovery; failed saves keep progress in memory and offer a retry.
+Progress is self-reported. The app encourages exploring with a grown-up and putting the device away; it does not control other apps. The featured adventure highlights unclaimed, active, then available quests. It is not a daily reset.
 
-## Tech stack
+## A peek inside
 
-React, TypeScript, Vite, plain CSS, and Lucide icons. Nunito is loaded locally; retired Press Start 2P files and their license notice remain bundled. Tests use Vitest, React Testing Library, and jsdom. Exact versions are pinned in [package.json](package.json) and package-lock.json.
+Actual browser captures of the current interface, refreshed **14 October 2026**. The screenshots use the default explorer, with Calm selected and no completed activities.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for the current folder map, module responsibilities, CSS ownership, and retained development resources.
+| Nature Bingo | Little Quests |
+| :---: | :---: |
+| [![Illustrated desktop Bingo board with nine discoveries and a friendly safety reminder](public/screenshots/bingo-desktop.png)](public/screenshots/bingo-desktop.png) | [![Desktop quest cards with supplied artwork, progress trails, and coin rewards](public/screenshots/quests-desktop.png)](public/screenshots/quests-desktop.png) |
 
-## Setup and run
+<details>
+<summary><strong>Open the mobile scrapbook</strong></summary>
 
-Requires Node.js `^24.15.0` or `>=26.0.0` and npm. [.nvmrc](.nvmrc) specifies the tested version, `24.16.0`.
+<p>Home, Bingo, and Quests at a 390px phone width. Select an image to open the full capture.</p>
+
+<table>
+  <tr><th>Home</th><th>Bingo</th><th>Quests</th></tr>
+  <tr>
+    <td valign="top"><a href="public/screenshots/home-mobile.png"><img src="public/screenshots/home-mobile.png" alt="Mobile Home with explorer profile, mood choices, journal, and backpack" width="260" /></a></td>
+    <td valign="top"><a href="public/screenshots/bingo-mobile.png"><img src="public/screenshots/bingo-mobile.png" alt="Mobile Bingo with large activity illustrations, Mark controls, and bottom navigation" width="260" /></a></td>
+    <td valign="top"><a href="public/screenshots/quests-mobile.png"><img src="public/screenshots/quests-mobile.png" alt="Mobile Quests stacked into a single column with illustrated progress trails" width="260" /></a></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><strong>See the complete Home and progress pages</strong></summary>
+
+- [Full desktop Home](public/screenshots/home-desktop.png)
+- [Journal and backpack on the compatibility Progress page](public/screenshots/progress-desktop.png)
+
+</details>
+
+## Run it locally
+
+Use **Node.js 24.15+ within version 24, or version 26+**, and npm. The tested version is **24.16.0**, also recorded in [.nvmrc](.nvmrc). Exact engine requirements are in [package.json](package.json).
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the URL printed by Vite, normally http://127.0.0.1:5173/. Stop the server with Ctrl+C.
+Open the URL printed by Vite, normally `http://127.0.0.1:5173/`.
 
-```sh
-npm run typecheck
-npm test
-npm run build
-npm run preview
-```
+| Command | Purpose |
+| --- | --- |
+| `npm run typecheck` | Check TypeScript. |
+| `npm test` | Run the regression suite. |
+| `npm run test:watch` | Run tests while working. |
+| `npm run build` | Check types and create the production build in `dist/`. |
+| `npm run preview` | Serve the build locally, normally on port 4173. |
 
-`npm run test:watch` runs tests in watch mode. The build command checks TypeScript and writes `dist/`; preview serves that build, normally at http://127.0.0.1:4173/. Both servers bind to loopback.
+Both local servers bind to loopback. Stop them with Ctrl+C.
 
-## Current status / future plans
+## Under the paper
 
-This is a functional local MVP, and I'm still redesigning the interface. Home, Bingo, quests, profile choices, rewards, progress, and local persistence are implemented. Public deployment is not configured.
+**React ? TypeScript ? Vite ? plain CSS ? Lucide**
 
-Future ideas include a virtual garden, seasonal activities, family-created quests, and a richer explorer journal with photos, notes, or drawings. These are not implemented or committed; the current journal displays recorded achievements. Coins currently cannot be spent; there is no shop or virtual world.
+The app uses one reducer and React context for profile choices, Bingo, quests, and rewards. Hash routes keep navigation simple. Nunito and the supplied PNG artwork are bundled locally.
 
-To refresh the banner, run `npm run dev`, open Home at a desktop width, dismiss welcome help, and capture the page using browser screenshot tools. Use the default profile or fictional details, then replace `public/screenshots/home-current.png` so the README path stays the same.
+| Folder | Responsibility |
+| --- | --- |
+| `src/pages` and `src/components` | Pages, shared banner, controls, profile, journal, and backpack. |
+| `src/features` | Bingo drawing and line detection, quest cards, and reward rules. |
+| `src/data` | Quest definitions, Bingo activities, and explorer portraits. |
+| `src/app` and `src/persistence` | State transitions, routing, validation, migrations, and browser saves. |
+| `src/styles` and `public/assets` | Scrapbook styling and original artwork. |
+| `src/tests` | Regression coverage for journeys, rewards, drawing, profiles, and saved progress. |
 
-Before public release, broader accessibility and device checks, family feedback, and license selection remain. See [PRODUCT.md](PRODUCT.md) for the wider vision and [ASSETS.md](ASSETS.md) for artwork and license notices. A project license has not yet been selected.
+### Your adventures stay in your browser
+
+There is one shared local profile per browser, saved in `localStorage`. No accounts, backend, analytics, ads, or activity uploads are implemented. Saves do not sync between devices, and clearing site storage removes progress. Failed saves offer a retry; unreadable saves require confirmation before recovery. Real-world activities can happen offline, but offline loading of the website is not guaranteed.
+
+## Where I want to take it
+
+The browser MVP works today. These are the next directions I want to explore, **not shipped features or promised release dates**.
+
+| Direction | The idea |
+| --- | --- |
+| **Grow Your World** | A virtual garden, forest, or miniature world with unlockable plants, decorations, animals, environments, and explorer cosmetics. This needs a separate spending economy. |
+| **Family Screen-Time Agreements** | Caregiver-defined routines and expectations, with flexible exceptions and child-friendly explanations. Controlling other apps would require separate platform feasibility work, permissions, and parental consent. |
+| **Shared Adventures** | Private family or friend rooms, shared goals, cooperative sessions, timers, and collective progress, with careful joining and moderation. |
+| **Explorer Journal** | Photos, observations, drawings, and notes. Possible image recognition or visual search would need reliable educational sources, clear uncertainty, guardian controls, and photo/location protection. |
+
+Other ideas on my list: seasonal and themed Bingo, rainy-day collections, family-created quests, ability-specific activities, collectible companions, printable cards, and family dashboards.
+
+Family feedback, safety, accessibility, and practical value will shape what comes first. The current project has no shop, virtual world, multiplayer, app blocking, or image-recognition service.
+
+### Before a public release
+
+- Test with families and refine reading level, activity alternatives, and shared-profile use.
+- Complete broader screen-reader, browser, zoom, and physical touch/stylus checks.
+- Select a project license, confirm artwork distribution rights, and configure deployment.
+
+## Project notebook
+
+| Read more | Inside |
+| --- | --- |
+| [Product](PRODUCT.md) | Vision, exact MVP scope, reward economy, and the full roadmap. |
+| [Architecture](ARCHITECTURE.md) | Modules, state models, and implementation decisions. |
+| [Design](DESIGN.md) | Scrapbook direction and interface treatments. |
+| [Assets](ASSETS.md) | Original artwork, bundled fonts, and license notices. |
+| [Tasks](TASKS.md) | Delivery checklist and dated verification history. |
+| [Rules](RULES.md) | Scope, privacy, safety, and code-preservation guidelines. |
+
+The latest application verification passed **56 tests across eight files**, TypeScript checks, and the production build. Earlier counts in delivery notes describe earlier snapshots. Public deployment is not configured, and a project license has not yet been selected.
+
+To refresh the gallery, run the local preview and capture the rendered pages at desktop and phone widths. Use a fresh browser session and default or fictional profile details; replace the images in `public/screenshots/` while preserving their filenames.
