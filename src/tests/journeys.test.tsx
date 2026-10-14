@@ -20,10 +20,10 @@ describe('MVP journeys', () => {
     expect(screen.getByRole('button', { name: /^Find a leaf:/ }).getAttribute('aria-pressed')).toBe('true');
     mark('Find a leaf'); mark('Find a leaf');
     expect(coinCount()).toBe('10');
-    fireEvent.click(screen.getByRole('button', { name: 'New board' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Start a new board' }));
     fireEvent.click(screen.getByRole('button', { name: 'Keep my board' }));
     expect(screen.getByRole('progressbar').getAttribute('value')).toBe('3');
-    fireEvent.click(screen.getByRole('button', { name: 'New board' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Start a new board' }));
     fireEvent.click(screen.getByRole('button', { name: 'Start a fresh board' }));
     expect(screen.getByRole('progressbar').getAttribute('value')).toBe('0');
     expect(coinCount()).toBe('10');
@@ -34,10 +34,13 @@ describe('MVP journeys', () => {
   it('starts, completes, claims, and restores a quest without duplicate rewards', () => {
     const app = openPage('#/quests');
     const card = () => within(screen.getByRole('article', { name: 'Cloud daydreams' }));
+    expect(card().getByText('Choose').closest('li')?.getAttribute('aria-current')).toBe('step');
     fireEvent.click(card().getByRole('button', { name: 'Start quest' }));
+    expect(card().getByText('Explore').closest('li')?.getAttribute('aria-current')).toBe('step');
     fireEvent.click(card().getByRole('button', { name: 'Choose another time' }));
     fireEvent.click(card().getByRole('button', { name: 'Start quest' }));
     fireEvent.click(card().getByRole('button', { name: 'I did it!' }));
+    expect(card().getByText('Collect').closest('li')?.getAttribute('aria-current')).toBe('step');
     expect(coinCount()).toBe('0');
     const claim = card().getByRole('button', { name: 'Claim 5 coins' });
     fireEvent.click(claim); fireEvent.click(claim);
@@ -45,6 +48,7 @@ describe('MVP journeys', () => {
     app.unmount(); render(<App />);
     expect(coinCount()).toBe('5');
     expect(card().getByText('Completed')).toBeTruthy();
+    expect(card().queryAllByRole('listitem').every(item => item.classList.contains('stage-done'))).toBe(true);
     expect(card().queryByRole('button', { name: /Claim/ })).toBeNull();
   });
   it('keeps malformed storage untouched until confirmed recovery', () => {

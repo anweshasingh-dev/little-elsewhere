@@ -151,3 +151,10 @@ main.tsx imports styles once in this order: tokens, global, components, layout, 
 - src/features/quests/quests.css: quest entries, lifecycle states, alternatives, action groups, and quest reward layout.
 
 Each stylesheet owns its responsive overrides beside its base rules. Shared selectors have one owner; feature styles may specialize shared components using their existing contextual selectors. Keep the established import order and use token variables for palette/type changes.
+## Current scrapbook polish
+
+The current DESIGN.md supersedes historical V2 visual notes above. Nunito is the only loaded font; supplied public/assets PNGs replace generated nature/companion illustrations. Quest trails derive directly from the existing available/active/completed/claimed status, with no data-model or reward changes. Coin paths use /assets/global/coin.png. Wide quest layouts use two columns and phone layouts use one. Existing hash routing, storage key, migrations, and economy remain intact.
+
+## Integrated Home scrapbook
+
+Primary navigation is Home, Bingo, Quests; #/progress remains a compatibility route. AdventureJournal derives sorted, deduplicated history from completionRecords and expands in place. BackpackCollection derives existing milestones and nature finds from coinLedger, completionRecords, and bingoFoundIds. Both are shared by Home and the legacy route. Home prioritizes unclaimed completed quests, then active, then available quests; all-claimed state features the current Bingo board. No persistence/schema/reward changes were introduced.

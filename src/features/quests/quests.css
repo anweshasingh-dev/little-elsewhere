@@ -1,35 +1,35 @@
-/* Quest entries, lifecycle states, and actions. */
-.quest-total { flex-shrink: 0; font-size: .8rem; padding-top: 10px; }
-.adventure-list { border-top: 1px solid var(--color-divider); }
-.quest-entry { display: grid; grid-template-columns: 68px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 22px 0; border-bottom: 1px solid var(--color-divider); }
-.quest-entry > .nature-art { width: 68px; height: 68px; }
-.quest-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
-.quest-title h2 { font-size: 1.12rem; margin: 0; }
-.quest-status { font-size: .7rem; color: var(--color-forest); }
-.quest-story > p { font-size: .9rem; margin: 7px 0; }
-.quest-story details { font-size: .82rem; }
-.quest-story summary { padding: 8px 0; min-height: 48px; }
-.quest-story details p { margin-bottom: 8px; }
-.quest-actions { display: flex; flex-direction: column; align-items: end; gap: 8px; padding-top: 4px; min-width: 140px; }
-.quest-reward { display: inline-flex; align-items: center; gap: 4px; min-height: 24px; }
-.quest-reward .pixel-detail { font-size: .5rem; }
-.quest-actions .button { font-size: .8rem; padding: 8px 12px; }
-.quest-active .quest-title h2::before { content: '·'; margin-right: 8px; color: var(--color-forest); font-size: 1.2rem; }
-.claimed-label { display: flex; align-items: center; gap: 5px; min-height: 48px; font-size: .78rem; }
-.quest-actions .small-action { font-size: .72rem; }
-.completion-instruction { color: var(--color-forest); font-weight: 750; }
-
-@media (max-width: 650px) {
-  .quest-entry { grid-template-columns: 48px minmax(0, 1fr); gap: 8px 14px; padding: 18px 0; }
-  .quest-entry > .nature-art { width: 48px; height: 48px; }
-  .quest-actions { grid-column: 2; flex-direction: row; align-items: center; justify-content: start; flex-wrap: wrap; min-width: 0; gap: 10px; }
-  .quest-title h2 { font-size: 1.05rem; }
-  .quest-total { padding-top: 0; }
-}
-
-
-
+/* Scrapbook cards reflect the existing quest lifecycle. */
+.quest-total { font-size: .9rem; padding-top: 10px; }
+.adventure-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.quest-entry { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 24px; border: 1px solid var(--color-divider); border-radius: 18px; background: var(--color-surface); box-shadow: 0 8px 24px #493b2810; min-width: 0; }
+.quest-entry > .nature-art { width: 112px; height: 128px; }
+.quest-title h2 { font-size: 1.2rem; margin-bottom: 6px; }
+.quest-status { font-size: .85rem; font-weight: 800; }
+.quest-story { min-width: 0; }
+.quest-story details { font-size: .9rem; }
+.quest-story summary { font-weight: 800; }
+.quest-story details p { margin-bottom: 10px; }
+.quest-trail { display: flex; gap: 8px; list-style: none; padding: 0; margin: 18px 0 4px; }
+.quest-trail li { position: relative; flex: 1; min-width: 0; padding: 8px 2px; text-align: center; border: 1px solid var(--color-divider); border-radius: 10px; font-size: .75rem; font-weight: 800; }
+.quest-trail .nature-art { width: 44px; height: 44px; margin: auto auto 4px; }
+.quest-trail .stage-current { border: 2px solid var(--color-forest); background: #fff0c6; }
+.quest-trail .stage-done { background: var(--color-meadow); }
+.quest-trail .stage-upcoming .nature-art { opacity: .45; }
+.quest-trail .icon { position: absolute; top: 3px; right: 3px; width: 16px; height: 16px; }
+.quest-actions { grid-column: 1 / -1; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--color-divider); padding-top: 16px; }
+.quest-reward { display: inline-flex; align-items: center; font-weight: 850; margin-right: auto; }
+.quest-actions .button { font-size: .9rem; }
+.claimed-label { display: flex; align-items: center; gap: 6px; min-height: 48px; font-weight: 800; }
+.completion-instruction { font-size: .9rem; font-weight: 750; margin-bottom: 0; }
 .quests-intro { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.quests-intro > img { display: block; width: 112px; height: auto; object-fit: contain; flex-shrink: 0; }
-.quests-intro p { margin-bottom: 0; }
-@media (max-width: 650px) { .quests-intro { gap: 10px; } .quests-intro > img { width: 72px; } }
+.quests-intro > img { width: 128px; height: auto; object-fit: contain; }
+.quests-intro p { margin: 0; }
+@media (max-width: 900px) { .adventure-list { grid-template-columns: 1fr; } }
+@media (max-width: 650px) {
+ .quest-entry { grid-template-columns: 84px minmax(0, 1fr); padding: 16px; gap: 12px; }
+ .quest-entry > .nature-art { width: 84px; height: 100px; }
+ .quests-intro > img { width: 80px; }
+ .quest-trail { gap: 4px; }
+ .quest-trail .nature-art { width: 36px; height: 36px; }
+ .quest-trail li { font-size: .7rem; }
+}

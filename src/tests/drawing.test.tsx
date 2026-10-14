@@ -68,6 +68,41 @@ describe('pointer drawing and accessible completion', () => {
     expect(screen.getByRole('button', { name: /^Find a leaf:/ }).getAttribute('aria-pressed')).toBe('true');
     expect(screen.getByRole('img', { name: 'Draw an X for Find a leaf' }).querySelectorAll('polyline')).toHaveLength(2);
   });
+  it('keeps palette marks stable through refresh, undo, and re-completion with icon-only undo', () => {
+    const app = openBingo();
+    const labels = ['Find a leaf', 'Spot a cloud', 'Something yellow', 'Notice a bird', 'Find a flower'];
+    const colors = ['rgb(185, 204, 137)', 'rgb(182, 214, 213)', 'rgb(238, 208, 89)', 'rgb(175, 193, 112)', 'rgb(112, 192, 184)'];
+    labels.forEach((label, index) => {
+      fireEvent.click(screen.getByRole('button', { name: new RegExp(`^${label}:`) }));
+      const undo = screen.getByRole('button', { name: new RegExp(`^${label}:.*Undo completion`) });
+      expect(undo.textContent).toBe('');
+      expect(undo.title).toBe('Undo completion');
+      const mark = screen.getByRole('img', { name: `Draw an X for ${label}` }).querySelector('polyline');
+      expect(mark?.getAttribute('style')).toContain(colors[index]);
+    });
+    app.unmount(); render(<App />);
+    const mark = () => screen.getByRole('img', { name: 'Draw an X for Find a leaf' });
+    expect(mark().querySelector('polyline')?.getAttribute('style')).toContain(colors[0]);
+    fireEvent.click(screen.getByRole('button', { name: /^Find a leaf:/ }));
+    expect(mark().querySelectorAll('polyline')).toHaveLength(0);
+    expect(saved().bingoBoard.cells[0].completed).toBe(false);
+    fireEvent.click(screen.getByRole('button', { name: /^Find a leaf:/ }));
+    expect(mark().querySelector('polyline')?.getAttribute('style')).toContain(colors[0]);
+    expect(coinBalance(saved())).toBe(10);
+  });
+  it('taps artwork to toggle but does not toggle after a drawing gesture', () => {
+    openBingo(); const svg = surface();
+    fireEvent.click(svg);
+    expect(saved().bingoBoard.cells[0].completed).toBe(true);
+    fireEvent.click(svg);
+    expect(saved().bingoBoard.cells[0].completed).toBe(false);
+    draw(svg, diagonals[0]); fireEvent.click(svg);
+    expect(saved().bingoBoard.cells[0].completed).toBe(false);
+    expect(saved().bingoBoard.cells[0].strokes).toHaveLength(1);
+    draw(svg, diagonals[1]); fireEvent.click(svg);
+    expect(saved().bingoBoard.cells[0].completed).toBe(true);
+    expect(saved().bingoBoard.cells[0].strokes).toHaveLength(2);
+  });
   it('ignores taps and canceled strokes without completing or saving ink', () => {
     openBingo(); const svg = surface();
     draw(svg, [[10, 10], [10, 10]]);

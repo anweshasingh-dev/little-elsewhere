@@ -14,6 +14,6 @@ export function CoinBalance() {
     const timer = window.setTimeout(() => setCollecting(false), 550);
     return () => window.clearTimeout(timer);
   }, [coins]);
-  return <div className={`coin-balance ${collecting ? 'is-collecting' : ''}`} aria-label={`${coins} coins`}><CoinIcon className="coin-art" /><strong className="pixel-detail" data-testid="coin-balance">{coins}</strong><span className="sr-only">coins</span></div>;
+  return <div className={`coin-balance ${collecting ? 'is-collecting' : ''}`} aria-label={`${coins} coins`}><CoinIcon className="coin-art" /><strong className="reward-number" data-testid="coin-balance">{coins}</strong><span className="sr-only">coins</span></div>;
 }
 

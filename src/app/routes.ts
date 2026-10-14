@@ -4,10 +4,9 @@ export const routes = [
   { path: '#/', label: 'Home' },
   { path: '#/bingo', label: 'Bingo' },
   { path: '#/quests', label: 'Quests' },
-  { path: '#/progress', label: 'Progress' },
 ] as const;
 
-export type RoutePath = (typeof routes)[number]['path'];
+export type RoutePath = (typeof routes)[number]['path'] | '#/progress';
 
 function subscribe(onChange: () => void) {
   window.addEventListener('hashchange', onChange);
@@ -20,5 +19,5 @@ function getSnapshot() {
 
 export function useRoute(): RoutePath | null {
   const hash = useSyncExternalStore(subscribe, getSnapshot);
-  return routes.find((route) => route.path === hash)?.path ?? null;
+  return hash === '#/progress' ? '#/progress' : routes.find((route) => route.path === hash)?.path ?? null;
 }

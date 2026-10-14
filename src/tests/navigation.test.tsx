@@ -8,17 +8,17 @@ async function navigate(hash: string) {
 }
 
 describe('application navigation', () => {
-  it('opens Home without a hash and exposes the four destinations', () => {
+  it('opens Home without a hash and exposes the three essential destinations', () => {
     render(<App />);
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Little explorer');
     const links = within(screen.getByRole('navigation')).getAllByRole('link');
-    expect(links.map((link) => link.textContent)).toEqual(['Home', 'Bingo', 'Quests', 'Progress']);
+    expect(links.map((link) => link.textContent)).toEqual(['Home', 'Bingo', 'Quests']);
     expect(links[0].getAttribute('aria-current')).toBe('page');
   });
 
   it('follows navigation links, updates active state and title, and moves focus', async () => {
     render(<App />);
-    for (const [label, heading] of [['Bingo', 'Nature Bingo'], ['Quests', 'Quests'], ['Progress', 'Progress'], ['Home', 'Little explorer']]) {
+    for (const [label, heading] of [['Bingo', 'Nature Bingo'], ['Quests', 'Quests'], ['Home', 'Little explorer']]) {
       fireEvent.click(within(screen.getByRole('navigation')).getByRole('link', { name: label }));
       await waitFor(() => expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(heading));
       expect(within(screen.getByRole('navigation')).getByRole('link', { name: label }).getAttribute('aria-current')).toBe('page');

@@ -1,25 +1,30 @@
 /* Bingo tiles, pointer drawing, and completion feedback. */
-.bingo-page { max-width: 660px; margin: auto; }
+.bingo-page { max-width: 1000px; margin: auto; }
 .bingo-page .page-title-row > div { flex: 1; min-width: 0; }
-.drawing-hint { display: flex; flex-direction: column; gap: 3px; font-size: .82rem; margin: -8px 0 24px; }
 .board-paper { padding: 16px; background: var(--color-surface); }
 .board-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; font-size: .8rem; margin-bottom: 16px; }
-.board-heading .pixel-label { font-size: .47rem; }
+.board-heading .journal-label { font-size: .78rem; }
 .bingo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .tile-slot { min-width: 0; }
-.discovery-tile { height: 100%; border: 1px solid var(--color-tile-border); background: var(--color-tile-paper); padding: 8px; display: flex; flex-direction: column; align-items: center; }
-.tile-picture { width: 100%; position: relative; aspect-ratio: 1; max-height: 96px; }
-.tile-picture > .nature-art { max-width: 105px; margin: auto; opacity: .95; }
+.discovery-tile { height: 100%; border: 1px solid var(--color-tile-border); background: var(--color-tile-paper); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; }
+.tile-picture { width: 100%; position: relative; aspect-ratio: 1; max-height: 180px; }
+.tile-picture > .nature-art { max-width: 180px; margin: auto; opacity: .95; }
 .drawing-surface { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; user-select: none; cursor: crosshair; overflow: hidden; }
+.hand-marked { background: var(--color-meadow); }
 .hand-marked .drawing-surface { touch-action: pan-y; cursor: default; }
-.ink-stroke { fill: none; stroke: var(--color-forest); stroke-width: 5.5; stroke-linejoin: round; stroke-linecap: round; opacity: .93; }
+.ink-stroke { fill: none; stroke: var(--color-forest); stroke-width: 5.5; stroke-linejoin: round; stroke-linecap: round; opacity: .9; }
 .tile-label { font-size: .85rem; font-weight: 800; text-align: center; min-height: 26px; display: flex; align-items: center; justify-content: center; }
-.cell-controls { width: 100%; margin-top: auto; }
+.cell-controls { display: flex; align-items: center; width: 100%; margin-top: auto; min-height: 48px; }
 .bingo-cell, .clear-ink { width: 100%; min-height: 48px; border: 0; background: transparent; color: var(--color-ink); display: flex; justify-content: center; align-items: center; gap: 5px; padding: 5px 0; font-size: .74rem; }
 .bingo-cell .icon, .clear-ink .icon { width: 15px; height: 15px; }
-.bingo-cell:hover, .clear-ink:hover { text-decoration: underline; }
+.bingo-cell, .clear-ink { border-radius: 10px; transition: background-color .15s, transform .15s; }
+.bingo-cell:hover, .clear-ink:hover { background: #4f604d12; }
+.bingo-cell:active, .clear-ink:active { background: #4f604d24; transform: translateY(1px); }
+.bingo-cell:focus-visible, .clear-ink:focus-visible { outline: 2px solid var(--color-forest); outline-offset: 2px; }
+.bingo-cell.undo-completion { width: 48px; height: 48px; margin-left: auto; }
+.undo-completion .icon { width: 18px; height: 18px; }
 .in-completed-line .discovery-tile { border-bottom: 3px solid var(--color-forest); }
-.in-completed-line .tile-label::after { content: '✦'; font-size: .7rem; padding-left: 4px; }
+
 .board-caption { text-align: center; font-size: .85rem; margin: 18px 0 0; }
 .bingo-footnotes { margin-top: 24px; font-size: .8rem; }
 .bingo-footnotes p { margin-bottom: 10px; }
@@ -29,13 +34,10 @@
 @media (max-width: 650px) {
   .board-paper { padding: 10px; }
   .board-heading { gap: 6px; font-size: .7rem; }
-  .board-heading .pixel-label { font-size: .35rem; }
+  .board-heading .journal-label { font-size: .78rem; }
   .discovery-tile { padding: 5px 3px 0; }
-  .tile-label { font-size: .69rem; line-height: 1.3; min-height: 32px; }
-  .tile-picture { aspect-ratio: auto; height: 72px; min-height: 72px; }
-  .bingo-page .page-title-row .button { min-width: 48px; padding: 8px; }
-  .bingo-page .button-label { display: none; }
-  .drawing-hint { font-size: .76rem; }
+  .tile-label { font-size: .8rem; line-height: 1.3; min-height: 32px; }
+  .tile-picture { aspect-ratio: auto; height: 88px; min-height: 88px; }
   .bingo-grid { gap: 8px; }
 }
 
@@ -45,3 +47,19 @@
 .bingo-intro > img { display: block; width: 112px; height: auto; object-fit: contain; flex-shrink: 0; }
 .bingo-intro p { margin-bottom: 0; }
 @media (max-width: 650px) { .bingo-intro { gap: 10px; } .bingo-intro > img { width: 72px; } }
+
+.bingo-header { align-items: center; flex-wrap: nowrap; gap: 16px; margin-bottom: 18px; }
+.bingo-header h1 { margin-bottom: 6px; }
+.reset-board { width: 64px; height: 64px; padding: 6px; flex-shrink: 0; background: #f6edcd; border: 1px solid var(--home-line); border-radius: 16px; }
+.reset-board img { width: 48px; height: 48px; object-fit: contain; }
+.reset-board:hover { background: #f1dfa0; }
+.reset-board:active { transform: translateY(1px); }
+.clear-ink { width: 48px; flex-shrink: 0; }
+@media (max-width: 650px) {
+ .bingo-header { gap: 8px; }
+ .bingo-header h1 { font-size: 1.5rem; }
+ .bingo-header p { font-size: .9rem; }
+ .bingo-intro > img { width: 56px; }
+ .reset-board { width: 52px; height: 52px; padding: 4px; }
+ .reset-board img { width: 40px; height: 40px; }
+}

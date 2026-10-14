@@ -1,6 +1,5 @@
 /* Base typography and accessibility. */
 @font-face { font-family: 'Nunito'; src: url('/fonts/Nunito-Variable.ttf') format('truetype'); font-style: normal; font-weight: 200 900; font-display: swap; }
-@font-face { font-family: 'Press Start 2P'; src: url('/fonts/PressStart2P-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
 
 * { box-sizing: border-box; }
 body { margin: 0; color: var(--color-ink); background: var(--color-paper); font: 17px/1.5 var(--font-body); }
@@ -16,9 +15,9 @@ h2 { font-size: 1.3rem; line-height: 1.3; margin-bottom: 12px; }
 h3 { font-size: 1.1rem; line-height: 1.35; margin-bottom: 8px; }
 p { margin-bottom: 16px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.pixel-detail, .pixel-label { font-family: var(--font-pixel); font-weight: 400; line-height: 1.8; }
-.pixel-detail { font-size: .65rem; }
-.pixel-label { font-size: .55rem; letter-spacing: .03em; }
+.reward-number, .journal-label { font-family: var(--font-body); font-weight: 800; line-height: 1.5; }
+.reward-number { font-size: 1rem; }
+.journal-label { font-size: .78rem; letter-spacing: .03em; }
 .eyebrow { font-size: .8rem; margin-bottom: 8px; }
 .closing-note, .fine-print { font-size: .8rem; }
 summary { min-height: 48px; padding: 12px 0; cursor: pointer; }
