@@ -32,7 +32,7 @@ flowchart TD
     Next --> Progress["View discoveries, coins, and milestones"]
 ```
 
-Mood selection is optional. Today's little goal points to the first available or active quest, with a fallback suggestion when all are finished; it does not reset daily. Bingo marks only earn coins when an eligible line or full board is completed.
+Mood selection is optional. Today's adventure prioritizes completed quests with unclaimed coins, then active quests, then available quests, and falls back to the current Bingo board when all quests are claimed. It does not reset daily. Bingo marks only earn coins when an eligible line or full board is completed.
 
 ## Features
 
@@ -40,7 +40,7 @@ Mood selection is optional. Today's little goal points to the first available or
 - A 3 by 3 Nature Bingo board with freehand X marks, a Mark button, undo, and confirmed board replacement.
 - Eight Little Quests with indoor/adapted alternatives and separate start, complete, and claim steps.
 - One-time coin rewards: 10 for the first bingo line, 20 more for the first full board, and 5–15 per quest. The current maximum is 105 coins per local profile.
-- Progress showing discoveries, completed quests, coins, and three milestones. Milestones acknowledge progress without extra coins.
+- A recent adventure journal and backpack collection on Home, showing discoveries, completed quests, and three milestones. The compatible `#/progress` route shares these sections. Milestones acknowledge progress without extra coins.
 - Local saves, first-time help, and warnings for failed saves, invalid data, or conflicting browser tabs.
 
 Choose safe activities with a caregiver as needed. Progress is self-reported; the app encourages putting the device away and does not close, block, or control other apps.
@@ -69,7 +69,9 @@ The diagrams describe implemented behavior. Saves stay in the same browser and d
 
 ## Tech stack
 
-React, TypeScript, Vite, plain CSS, and Lucide icons. Nunito and Press Start 2P fonts are bundled locally. Tests use Vitest, React Testing Library, and jsdom. Exact versions are pinned in [package.json](package.json) and package-lock.json.
+React, TypeScript, Vite, plain CSS, and Lucide icons. Nunito is loaded locally; retired Press Start 2P files and their license notice remain bundled. Tests use Vitest, React Testing Library, and jsdom. Exact versions are pinned in [package.json](package.json) and package-lock.json.
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the current folder map, module responsibilities, CSS ownership, and retained development resources.
 
 ## Setup and run
 
@@ -95,7 +97,7 @@ npm run preview
 
 This is a functional local MVP, and I'm still redesigning the interface. Home, Bingo, quests, profile choices, rewards, progress, and local persistence are implemented. Public deployment is not configured.
 
-Future ideas include a virtual garden, seasonal activities, family-created quests, and an explorer journal. These are not implemented or committed. Coins currently cannot be spent; there is no shop or virtual world.
+Future ideas include a virtual garden, seasonal activities, family-created quests, and a richer explorer journal with photos, notes, or drawings. These are not implemented or committed; the current journal displays recorded achievements. Coins currently cannot be spent; there is no shop or virtual world.
 
 To refresh the banner, run `npm run dev`, open Home at a desktop width, dismiss welcome help, and capture the page using browser screenshot tools. Use the default profile or fictional details, then replace `public/screenshots/home-current.png` so the README path stays the same.
 

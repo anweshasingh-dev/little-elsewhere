@@ -1,4 +1,4 @@
-# Little Elsewhere — Proposed Architecture
+# Little Elsewhere — Architecture
 
 Status: Functional MVP implemented in the existing scaffold. Hash routing is retained; activity data, pure reward reducer, provider, snapshot validation/storage, UI components, and tests are present. Future integrations remain excluded.
 
@@ -9,65 +9,68 @@ One app-level reducer/context manages state. Four hash routes (#/, #/bingo, #/qu
 
 Phase 1 installed exact versions recorded in package.json and package-lock.json: React 19.3.0, TypeScript 7.0.2, Vite 8.3.4, and React plugin 6.1.2. Navigation tests use Vitest 5.0.3, React Testing Library 16.3.3, and jsdom 30.1.2. React and React DOM were the scaffold runtime dependencies; V2 adds the explicitly requested Lucide React 1.55.0 interface icons. The project requires Node ^24.15.0 or >=26.0.0 (the test environment sets the higher minimum); tested with Node 24.16.0 and npm 11.13.0. Vitest uses one thread worker because the default fork pool stalled on this Windows setup. No new dependencies were added for the functional MVP. Existing test tooling covers domain and component journeys.
 
-## Proposed source structure
+## Current project structure
 ```text
 little-elsewhere/
-  PRODUCT.md, RULES.md, DESIGN.md
-  ARCHITECTURE.md, TASKS.md, README.md
+  README.md, PRODUCT.md, RULES.md, DESIGN.md
+  ARCHITECTURE.md, TASKS.md, ASSETS.md
   index.html
   package.json, package-lock.json
   tsconfig.json, vite.config.ts
-  public/illustrations/
+  public/
+    assets/{avatars,bingo_icons,global,home_icons}/
+    fonts/                       # Bundled fonts and license notices
+    licenses/                    # Lucide notice
+    screenshots/                 # Current README banner and historical captures
+    illustrations/.gitkeep       # Retained original illustration placeholder
+    favicon.svg
   src/
-    main.tsx
-    app/
-      App.tsx
-      routes.ts
-      state.ts
-      reducer.ts
-      AppStateProvider.tsx
-    pages/
-      HomePage.tsx
-      BingoPage.tsx
-      QuestsPage.tsx
-      ProgressPage.tsx
-    components/
-      Button.tsx
-      Card.tsx
-      Navigation.tsx
-      CoinBalance.tsx
-      ConfirmDialog.tsx
-      FirstTimeHelp.tsx
-      RewardFeedback.tsx
+    main.tsx                     # React entry and ordered CSS imports
+    app/                         # Composition, native hash routes, state/provider/reducer
+    pages/                       # Home, Bingo, Quests, compatibility Progress screen
+    components/                  # Shared UI, journal, collection, profile and storage feedback
     features/
-      bingo/
-        BingoBoard.tsx
-        BingoCell.tsx
-        logic.ts
-      quests/
-        QuestCard.tsx
-        logic.ts
-      rewards/
-        rules.ts
-        award.ts
-        ledger.ts
-    data/
-      quests.ts
-      bingoActivities.ts
-    persistence/
-      storage.ts
-      validation.ts
-    styles/
-      tokens.css
-      global.css
-    tests/
-      bingo.test.ts
-      quests.test.ts
-      rewards.test.ts
-      persistence.test.ts
-      journeys.test.tsx
+      bingo/                     # Board/cell UI, drawing, line logic, bingo.css
+      quests/                    # QuestCard.tsx and quests.css; transitions live in app/reducer.ts
+      rewards/                   # rules.ts and award.ts; ledger types live in app/state.ts
+    data/                        # avatars.ts, bingoActivities.ts, quests.ts
+    persistence/                 # storage.ts, validation.ts, migration.ts
+    styles/                      # tokens, global, components, layout, progress, home CSS
+    tests/                       # Eight test files and shared setup.ts
 ```
-Add files as needed rather than generating empty placeholders.
+
+The existing structure already separates application composition, screens, shared UI,
+domain logic, content, persistence, and styles. No source moves are needed.
+`#/progress` is a compatibility route; primary navigation contains Home, Bingo, Quests.
+Home and Progress share AdventureJournal and BackpackCollection.
+
+Ignored local resources are intentionally separate: `dist/` is build output,
+`node_modules/` contains installed dependencies, and `.verification/` and
+`.browser-profile/` retain browser scripts, results, screenshots, comparison CSS,
+and browser data. Historical scripts target particular UI versions and debug ports;
+inspect them before reuse because some overwrite screenshots or local test progress.
+They are not part of `npm test` and were not removed during cleanup.
+
+### Conservative organization audit - 2026-10-14
+
+The baseline passed 56 tests across eight files and `npm run build` (including
+TypeScript checking). The counts in delivery notes below describe earlier snapshots,
+not the current suite. TASKS.md likewise retains dated verification history.
+
+Five zero-byte `.gitkeep` files in populated source folders (`data`, `features/bingo`,
+`features/quests`, `features/rewards`, `persistence`) were unnecessary: Git tracks
+those folders through their real files, and no source, tooling, documentation, or
+local verification script references these markers. Only those markers were removed.
+The illustration placeholder remains because its folder was part of the documented
+original structure.
+
+Companion, EmptyState, ProgressIndicator, and SectionHeading currently have no imports,
+but remain as documented reusable UI resources. No component, selector, original PNG,
+screenshot, font, license notice, lockfile, configuration, migration, or test was removed.
+Retired Press Start 2P and spare artwork are explicitly retained in ASSETS.md.
+Removing these resources would need an explicit retirement decision, not just an
+import search. CSS ownership and import order remain unchanged; `progress.css` also
+styles the journal and collection shared with Home.
 
 ## Responsibilities
 index.html mounts main.tsx. App initializes persistence, provides state, selects routes, and renders shared navigation/balance. Pages compose features. UI dispatches intents; pure domain functions validate transitions. Data modules contain content only. Persistence validates and stores one snapshot. Tokens govern shared styling.

@@ -9,3 +9,5 @@ Home combines an explorer portrait/profile, real mood controls, one featured nex
 Bingo retains the three-by-three board, larger activity artwork, pointer drawing, and accessible Mark/Undo buttons. Progress retains earned milestones and discovery history with real completion state. Existing reducer, persistence, finite rewards, recovery dialogs, and tab conflict behavior are preserved.
 
 Bingo marks use the exact five-colour palette (#B9CC89, #B6D6D5, #EED059, #AFC170, #70C0B8), assigned by stable activity catalog order. Saved strokes and schema are unchanged. Completed tiles have icon-only Undo with a 48px target. Home moods use the original expressive emojis at the user's request, and home controls use prominent filled surfaces instead of arrow/underline decoration.
+
+Home opens with the supplied assets/global/banner.png panorama, shown uncropped with real Nunito title text over its open sky. The Home header uses a compact Home link to avoid repeating the title. The selected explorer portrait retains its image and proportions, with a shallow irregular CSS polygon along the paper margin and a silhouette-following shadow.

@@ -1,4 +1,4 @@
-﻿import { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Settings } from 'lucide-react';
 import { useAppState } from '../app/AppStateProvider';
 import { ConfirmDialog } from '../components/ConfirmDialog';
@@ -24,6 +24,10 @@ export function HomePage() {
   const bingoCount = state.bingoBoard.cells.filter(cell => cell.completed).length;
   function openSettings() { setName(profile?.name ?? ''); setAge(profile?.age?.toString() ?? ''); setSettings(true); }
   return <div className="home-world">
+    <div className="home-banner">
+      <img src="/assets/global/banner.png" alt="" width="2172" height="724" fetchPriority="high" />
+      <p className="home-banner-title">little elsewhere</p>
+    </div>
     <section className="home-profile" aria-label="Explorer profile">
       <div className="home-portrait"><span className="home-eyebrow">MY EXPLORER JOURNAL</span><AvatarPicker/></div>
       <div className="home-profile-details"><div className="home-header-actions"><button type="button" onClick={openSettings} aria-label="Home settings" title="Home settings"><Settings aria-hidden="true"/></button></div><p className="home-eyebrow">HELLO</p><h1>{profile?.name || 'Little explorer'}</h1><p className="home-age">{profile?.age ? `${profile.age} years old` : 'Ready for a little adventure?'}</p>

@@ -1,10 +1,10 @@
-﻿import { useAppState } from '../app/AppStateProvider';
+import { useAppState } from '../app/AppStateProvider';
 import { avatars } from '../data/avatars';
 export function AvatarPicker() {
   const { state, dispatch } = useAppState();
   const selected = avatars.find((avatar) => avatar.id === state.homeProfile?.avatarId) ?? avatars[0];
   return <div className="avatar-profile">
-    <img className="home-avatar" src={selected.src} alt={selected.alt} width="1254" height="1254" fetchPriority="high" />
+    <div className="home-avatar-paper"><img className="home-avatar" src={selected.src} alt={selected.alt} width="1254" height="1254" fetchPriority="high" /></div>
     <details className="avatar-picker">
       <summary>Choose your explorer</summary>
       <div className="avatar-options" role="group" aria-label="Explorer options">
