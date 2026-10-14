@@ -9,8 +9,8 @@
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
   --space-6: 24px; --space-8: 32px; --space-12: 48px;
   --color-divider: #cbd1be; --color-divider-soft: #d3d8c8;
-  --color-paper-shadow: #c4cfb6; --color-tile-border: #829276;
-  --color-tile-paper: #f8f8ef; --color-backdrop: #293d3070; --color-warning: #fff1dc;
+  --color-paper-shadow: #c4cfb6; --color-tile-border: #d3d8c8;
+  --color-tile-paper: #fffefa; --color-backdrop: #293d3070; --color-warning: #fff1dc;
 
 
 }

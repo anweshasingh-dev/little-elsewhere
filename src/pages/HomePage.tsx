@@ -24,15 +24,11 @@ export function HomePage() {
   const bingoCount = state.bingoBoard.cells.filter(cell => cell.completed).length;
   function openSettings() { setName(profile?.name ?? ''); setAge(profile?.age?.toString() ?? ''); setSettings(true); }
   return <div className="home-world">
-    <div className="home-banner">
-      <img src="/assets/global/banner.png" alt="" width="2172" height="724" fetchPriority="high" />
-      <p className="home-banner-title">little elsewhere</p>
-    </div>
     <section className="home-profile" aria-label="Explorer profile">
-      <div className="home-portrait"><span className="home-eyebrow">MY EXPLORER JOURNAL</span><AvatarPicker/></div>
-      <div className="home-profile-details"><div className="home-header-actions"><button type="button" onClick={openSettings} aria-label="Home settings" title="Home settings"><Settings aria-hidden="true"/></button></div><p className="home-eyebrow">HELLO</p><h1>{profile?.name || 'Little explorer'}</h1><p className="home-age">{profile?.age ? `${profile.age} years old` : 'Ready for a little adventure?'}</p>
+      <div className="home-portrait"><AvatarPicker/></div>
+      <div className="home-profile-details"><div className="home-header-actions"><button type="button" onClick={openSettings} aria-label="Home settings" title="Home settings"><Settings aria-hidden="true"/></button></div><h1>{profile?.name || 'Little explorer'}</h1><p className="home-age">{profile?.age ? `${profile.age} years old` : 'Ready for a little adventure?'}</p>
         <div className="home-interests" aria-label="Explorer interests"><span><NatureIllustration name="leaf"/>Nature</span><span><NatureIllustration name="cloud"/>Daydreams</span><span><NatureIllustration name="flower"/>Little wonders</span></div>
-        <fieldset className="home-moods"><legend>How do you feel today?</legend><div>{moods.map((mood) => <button key={mood.id} type="button" aria-label={mood.label} aria-pressed={profile?.mood === mood.id} onClick={() => dispatch({ type: 'set-mood', mood: mood.id })}><span aria-hidden="true">{mood.face}</span><small>{mood.label}</small></button>)}</div></fieldset>
+        <fieldset className="home-moods"><legend>How do you feel today?</legend><div>{moods.map((mood) => <button key={mood.id} type="button" aria-label={mood.label} aria-pressed={profile?.mood === mood.id} onClick={() => dispatch({ type: 'set-mood', mood: mood.id })}><span className="mood-emoji" aria-hidden="true">{mood.face}</span><small>{mood.label}</small></button>)}</div></fieldset>
       </div>
     </section>
     <section className="home-adventures" aria-labelledby="home-adventures-title"><h2 id="home-adventures-title">Pick an adventure</h2><div className="home-adventure-links">

@@ -1,7 +1,7 @@
 ﻿.coin-image { object-fit: contain; flex-shrink: 0; }
 /* Progress keepsakes, history, coins, and shared discovery trail. */
 .coin-balance { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px; }
-.coin-art { width: 64px; height: 64px; }
+.coin-art { width: 88px; height: 88px; }
 .is-collecting .coin-art { animation: coin-hop .5s ease-out; }
 .is-collecting strong { animation: coin-count .5s ease-out; }
 @keyframes coin-hop { 35% { transform: translateY(-7px) rotate(-12deg); } }
@@ -23,7 +23,7 @@
 .journal-entries time { display: block; font-size: .85rem; }
 .journal-empty { margin: 24px 0 8px; }
 .backpack-welcome { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; }
-.backpack-welcome > img { width: 180px; height: 180px; object-fit: contain; }
+.backpack-welcome > img { width: 220px; height: 220px; flex-shrink: 0; object-fit: contain; }
 .backpack-welcome h2 { font-size: 1.6rem; margin-bottom: 0; }
 .collection-keepsakes { display: grid; gap: 12px; }
 .collection-keepsake { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px dashed var(--home-line); border-radius: 12px; }
@@ -40,10 +40,18 @@
 .collected-discoveries li:not(.is-found) .nature-art { opacity: .45; filter: grayscale(.6); }
 .collected-discoveries small { display: block; }
 @media (max-width: 650px) {
- .coin-art { width: 48px; height: 48px; }
+ .coin-art { width: 72px; height: 72px; }
  .adventure-journal, .backpack-collection { padding: 18px; }
- .backpack-welcome > img { width: 130px; height: 140px; }
+ .backpack-welcome > img { width: 156px; height: 170px; }
  .backpack-welcome { gap: 12px; }
  .backpack-welcome h2 { font-size: 1.4rem; }
  .journal-entries li { gap: 10px; }
 }
+
+.coin-balance { gap: 12px; padding: 0 14px 0 2px; }
+.coin-balance .reward-number { font-size: 1.5rem; }
+.backpack-welcome > div { min-width: 0; }
+.collection-keepsake > .nature-art { width: 80px; height: 80px; }
+.journal-entries li > img { width: 72px; height: 72px; }
+.collected-discoveries .nature-art { width: 96px; height: 96px; }
+@media (max-width: 360px) { .backpack-welcome { flex-direction: column; align-items: flex-start; } }

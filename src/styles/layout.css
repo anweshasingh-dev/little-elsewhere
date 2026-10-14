@@ -11,11 +11,11 @@
 .header-tools .help-button:active { transform: translateY(2px); box-shadow: none; }
 .nav-row { width: 100%; }
 .navigation { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
-.navigation a { min-height: 48px; display: inline-flex; align-items: center; gap: 7px; border-bottom: 3px solid transparent; text-decoration: none; font-size: .88rem; }
+.navigation a { min-height: 48px; display: inline-flex; align-items: center; gap: 7px; border-bottom: 3px solid transparent; text-decoration: none; font-size: 1rem; }
 .navigation a[aria-current='page'] { border-bottom-color: var(--color-forest); font-weight: 850; }
 .navigation a:hover { color: var(--color-clay); }
 .view-content { border: 0; padding: 0; margin: 0; min-width: 0; }
-.site-footer { display: flex; justify-content: center; margin-top: 30px; padding: 20px 0; font-size: .72rem; }
+.site-footer { display: flex; justify-content: center; margin-top: 30px; padding: 20px 0; font-size: .85rem; }
 .site-footer > span { display: flex; align-items: center; gap: 6px; }
 .site-footer .icon { width: 16px; height: 16px; }
 .page-title-row { display: flex; justify-content: space-between; align-items: start; gap: 18px; margin-bottom: 22px; }
@@ -30,12 +30,22 @@
   .brand-row { gap: 8px 12px; }
   .header-tools .help-button { font-size: .85rem; padding: 10px 14px; }
   .navigation { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; justify-content: space-around; gap: 6px; padding: 5px 8px calc(5px + env(safe-area-inset-bottom)); background: var(--color-paper); border-top: 1px solid var(--color-divider); }
-  .navigation a { display: flex; flex-direction: column; gap: 2px; min-width: 54px; min-height: 56px; font-size: .7rem; border-top: 3px solid transparent; border-bottom: 0; }
+  .navigation a { display: flex; flex-direction: column; gap: 2px; min-width: 54px; min-height: 56px; font-size: .85rem; border-top: 3px solid transparent; border-bottom: 0; }
   .navigation a[aria-current='page'] { border-top-color: var(--color-forest); }
-  .site-footer { margin-top: 18px; font-size: .65rem; }
+  .site-footer { margin-top: 18px; font-size: .8rem; }
   .page-title-row { flex-wrap: wrap; }
 }
 
 
 
 @media (max-width: 480px) { .header-tools { width: 100%; justify-content: space-between; margin-left: 0; } }
+
+/* Shared cover scales with the shell without stretching or cropping its artwork. */
+.adventure-banner { position: relative; width: 100%; margin: 0 auto 20px; }
+main:has(.bingo-page) .adventure-banner { max-width: 1000px; }
+.adventure-banner > img { display: block; width: 100%; height: auto; }
+.adventure-banner-title { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); margin: 0; width: fit-content; max-width: 76%; text-align: center; padding: 0; font-family: var(--font-body); font-size: clamp(1.2rem, 3.1vw, 2.5rem); line-height: 1.15; font-weight: 900; letter-spacing: -.035em; color: var(--color-ink); }
+@media (max-width: 760px) {
+ .adventure-banner { margin-bottom: 18px; }
+ .adventure-banner-title { font-size: clamp(1rem, 4.3vw, 2rem); }
+}

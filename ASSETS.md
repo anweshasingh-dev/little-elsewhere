@@ -14,6 +14,12 @@ Activity mapping: grass ? leaves; cloud ? clouds; sun ? yellow; bird ? bird; sea
 
 Other available assets: cat, dog, caterpiller, worm, squirrel, stick, nut, pinecorn, paper_boat. Asset ownership/license was not supplied; preserve these source files and confirm distribution rights before public release.
 
-Lucide React utility controls retain `public/licenses/Lucide-LICENSE.txt`. Retired Press Start 2P files remain bundled with their notice but are never loaded or used. Existing screenshots predate the current polish.
+Lucide React utility controls retain `public/licenses/Lucide-LICENSE.txt`. The retired pixel font is not loaded or used; all pages use bundled Nunito. Existing screenshots predate the current polish.
 
 Bingo reset uses the supplied `public/assets/global/Refresh_Arrow.png` directly.
+
+UI polish: the panoramic banner is preserved whole and headed Little elsewhere. Mood buttons now use the documented sun/star/cloud/moon/daydream mapping. Quest trail markers reflect the existing available/active/completed/claimed lifecycle, not subtask counts. User-created Bingo ink remains an interactive drawing surface, never a substitute for the PNG artwork.
+
+Targeted restoration: the original avatar edge clip-path and silhouette shadow, raised mood cards, warm Home paper colors, layered adventure-card shadows, and dashed backpack keepsakes are restored. The full banner matches the page content width (1000px maximum on Bingo), with its title directly on the illustration. Original PNG files and state logic are unchanged.
+
+The journal banner is shared by every route through AdventureBanner in the application shell; it scales with the available width and preserves the full PNG.

@@ -7,15 +7,15 @@
 .bingo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .tile-slot { min-width: 0; }
 .discovery-tile { height: 100%; border: 1px solid var(--color-tile-border); background: var(--color-tile-paper); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; }
-.tile-picture { width: 100%; position: relative; aspect-ratio: 1; max-height: 180px; }
-.tile-picture > .nature-art { max-width: 180px; margin: auto; opacity: .95; }
+.tile-picture { width: 100%; position: relative; aspect-ratio: 1; max-height: 220px; }
+.tile-picture > .nature-art { max-width: 220px; margin: auto; opacity: .95; }
 .drawing-surface { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; user-select: none; cursor: crosshair; overflow: hidden; }
 .hand-marked { background: var(--color-meadow); }
 .hand-marked .drawing-surface { touch-action: pan-y; cursor: default; }
 .ink-stroke { fill: none; stroke: var(--color-forest); stroke-width: 5.5; stroke-linejoin: round; stroke-linecap: round; opacity: .9; }
-.tile-label { font-size: .85rem; font-weight: 800; text-align: center; min-height: 26px; display: flex; align-items: center; justify-content: center; }
+.tile-label { font-size: 1rem; font-weight: 800; text-align: center; min-height: 26px; display: flex; align-items: center; justify-content: center; }
 .cell-controls { display: flex; align-items: center; width: 100%; margin-top: auto; min-height: 48px; }
-.bingo-cell, .clear-ink { width: 100%; min-height: 48px; border: 0; background: transparent; color: var(--color-ink); display: flex; justify-content: center; align-items: center; gap: 5px; padding: 5px 0; font-size: .74rem; }
+.bingo-cell, .clear-ink { width: 100%; min-height: 48px; border: 0; background: transparent; color: var(--color-ink); display: flex; justify-content: center; align-items: center; gap: 5px; padding: 5px 0; font-size: .85rem; }
 .bingo-cell .icon, .clear-ink .icon { width: 15px; height: 15px; }
 .bingo-cell, .clear-ink { border-radius: 10px; transition: background-color .15s, transform .15s; }
 .bingo-cell:hover, .clear-ink:hover { background: #4f604d12; }
@@ -63,3 +63,18 @@
  .reset-board { width: 52px; height: 52px; padding: 4px; }
  .reset-board img { width: 40px; height: 40px; }
 }
+
+/* Keep illustrations and controls comfortable rather than squeezing nine cells. */
+.discovery-tile { box-shadow: 0 3px 10px #493b280a; }
+.hand-marked { border-color: var(--color-forest); }
+@media (max-width: 480px) {
+ .bingo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+ .board-paper { padding: 8px; }
+ .tile-picture { height: clamp(88px, 24vw, 120px); min-height: 88px; }
+ .tile-label { font-size: .85rem; min-height: 54px; padding: 4px 2px; }
+ .cell-controls { flex-wrap: wrap; }
+ .clear-ink { margin: auto; }
+}
+
+.bingo-safety { display: flex; align-items: flex-start; gap: 10px; font-size: 1rem; line-height: 1.6; }
+.bingo-safety > img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
