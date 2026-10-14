@@ -6,12 +6,13 @@
 <p align="center">
   <a href="#a-peek-inside">Screenshots</a> &middot;
   <a href="#what-works-today">Features</a> &middot;
+  <a href="#how-an-adventure-flows">Flowchart</a> &middot;
   <a href="#run-it-locally">Get started</a> &middot;
   <a href="#where-i-want-to-take-it">Future plans</a>
 </p>
 
 <p align="center">
-  <img src="public/screenshots/home-current.png" alt="Little Elsewhere Home with an illustrated landscape banner, torn-paper explorer portrait, mood cards, and Bingo and Quest invitations" width="900" />
+  <a href="public/screenshots/home-desktop.png"><img src="public/screenshots/home-desktop.png" alt="Updated Little Elsewhere homepage with illustrated banner, explorer profile, mood choices, Bingo and Quest invitations, featured adventure, journal, and backpack" width="900" /></a>
 </p>
 
 ## Why Little Elsewhere?
@@ -40,6 +41,29 @@ A shared illustrated banner ties the pages together. Desktop layouts give the ar
 The first Bingo line earns **10 coins**, the first full board earns **20 more**, and each quest earns **5?15**. Rewards are awarded once, for a maximum of **105 coins** in the current catalog. Undoing marks or starting a new board does not award the same coins again. Milestones do not add extra rewards, and coins cannot currently be spent.
 
 Progress is self-reported. The app encourages exploring with a grown-up and putting the device away; it does not control other apps. The featured adventure highlights unclaimed, active, then available quests. It is not a daily reset.
+
+## How an adventure flows
+
+Choose an activity on Home, explore away from the screen, then return to record your discovery. Bingo rewards are automatic; quest coins are collected after completing the quest.
+
+```mermaid
+flowchart TD
+    Home[Home: choose an explorer and mood] --> Choice{Pick an adventure}
+    Choice --> Bingo[Nature Bingo: choose a discovery]
+    Choice --> Quest[Little Quests: choose a quest]
+    Bingo --> ExploreBingo[Put the device away and explore]
+    Quest --> ExploreQuest[Put the device away and follow the quest]
+    ExploreBingo --> Mark[Return and draw an X or use Mark]
+    ExploreQuest --> Complete[Return and mark the quest complete]
+    Mark --> Reward{First line or full board?}
+    Reward -->|Yes| BingoCoins[Award coins once: 10 for a line, 20 for a full board]
+    Reward -->|No| Save[Save progress in this browser]
+    BingoCoins --> Save
+    Complete --> Collect[Collect quest coins once: 5 to 15]
+    Collect --> Save
+    Save --> Journal[Review discoveries and milestones on Home]
+    Journal --> Choice
+```
 
 ## A peek inside
 
