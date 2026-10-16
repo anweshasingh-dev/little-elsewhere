@@ -22,4 +22,4 @@ UI polish: the panoramic banner is preserved whole and headed Little elsewhere. 
 
 Targeted restoration: the original avatar edge clip-path and silhouette shadow, raised mood cards, warm Home paper colors, layered adventure-card shadows, and dashed backpack keepsakes are restored. The full banner matches the page content width (1000px maximum on Bingo), with its title directly on the illustration. Original PNG files and state logic are unchanged.
 
-The journal banner is shared by every route through AdventureBanner in the application shell; it scales with the available width and preserves the full PNG.
+The landscape illustration at assets/global/footer.png is shared by every route through SiteFooter, outside the constrained content shell. It fills the viewport width with no side or bottom gaps, scales proportionally, and crops on narrow screens to retain a minimum height of 160px.

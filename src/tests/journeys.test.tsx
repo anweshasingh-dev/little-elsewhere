@@ -38,7 +38,7 @@ describe('MVP journeys', () => {
     expect(coinCount()).toBe('10');
     for (const svg of screen.getAllByRole('img', { name: /^Draw an X for / })) mark(svg.getAttribute('aria-label')!.replace('Draw an X for ', ''));
     expect(coinCount()).toBe('30');
-    expect(screen.getByText('A whole board of wonders. You did it!')).toBeTruthy();
+    expect(screen.queryByText('A whole board of wonders. You did it!')).toBeNull();
   });
   it('starts, completes, claims, and restores a quest without duplicate rewards', () => {
     const app = openPage('#/quests');
@@ -99,15 +99,17 @@ describe('MVP journeys', () => {
     mark('Find a leaf');
     expect(screen.getByRole('progressbar').getAttribute('value')).toBe('1');
   });
-  it('explains the first-time loop and lets the guide reopen', () => {
+  it('explains the first-time loop and provides instructions in settings', () => {
     localStorage.clear();
     openPage('#/');
     expect(screen.getByRole('dialog', { name: 'A little more world awaits' })).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: "Let's explore" }));
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).onboardingSeen).toBe(true);
-    fireEvent.click(screen.getByRole('button', { name: 'How to play' }));
-    expect(screen.getByRole('dialog')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: 'Close guide' }));
+    expect(screen.queryByRole('button', { name: 'How to play' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Home settings' }));
+    expect(screen.getByRole('dialog', { name: 'Your explorer' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'How to play' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(screen.queryByRole('dialog')).toBeNull();
   });
   it('shows empty progress and locked milestones without extra rewards', () => {

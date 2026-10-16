@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { AdventureBanner } from '../components/AdventureBanner';
+import { SiteFooter } from '../components/SiteFooter';
 import { Navigation } from '../components/Navigation';
 import { CoinBalance } from '../components/CoinBalance';
 import { FirstTimeHelp } from '../components/FirstTimeHelp';
@@ -24,12 +24,12 @@ function AppShell() {
     if (previousRoute.current !== route) mainRef.current?.focus();
     previousRoute.current = route;
   }, [route]);
-  return <div className={`app-shell ${route === '#/' ? 'home-shell' : ''}`}><a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); mainRef.current?.focus(); }}>Skip to content</a>
-    <header className="site-header"><div className="brand-row"><a className="brand" href="#/" aria-label="Little Elsewhere home"><span className="brand-symbol"><Icon name="sprout" /></span><span>little elsewhere</span></a><div className="header-tools">{problem !== 'invalid' && <CoinBalance />}<FirstTimeHelp /></div></div><div className="nav-row"><Navigation currentRoute={route} /></div></header>
-    <main id="main-content" ref={mainRef} tabIndex={-1}><AdventureBanner /><StorageStatus /><RewardFeedback />{problem !== 'invalid' && <fieldset className="view-content" disabled={problem === 'conflict'} aria-label="Adventure content">
+  return <div className="site-frame"><div className={`app-shell ${route === '#/' ? 'home-shell' : ''}`}><a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); mainRef.current?.focus(); }}>Skip to content</a>
+    <header className="site-header"><div className="brand-row"><a className="brand" href="#/" aria-label="Little Elsewhere home"><span className="brand-symbol"><Icon name="sprout" /></span><span>little elsewhere</span></a><div className="nav-row"><Navigation currentRoute={route} /></div><div className="header-tools">{problem !== 'invalid' && <CoinBalance />}</div></div></header>
+    <main id="main-content" ref={mainRef} tabIndex={-1}><StorageStatus /><RewardFeedback /><FirstTimeHelp />{problem !== 'invalid' && <fieldset className="view-content" disabled={problem === 'conflict'} aria-label="Adventure content">
       {route === '#/' && <HomePage />}{route === '#/bingo' && <BingoPage />}{route === '#/quests' && <QuestsPage />}{route === '#/progress' && <ProgressPage />}
       {route === null && <section className="page-panel"><h1>Let's find our way home</h1><p>We couldn't find that page.</p><a className="text-link" href="#/">Return home</a></section>}
-    </fieldset>}</main><footer className="site-footer"><span><Icon name="leaf" /> Small adventures. A little more world.</span></footer></div>;
+    </fieldset>}</main></div><SiteFooter /></div>;
 }
 export function App() { return <AppStateProvider><AppShell /></AppStateProvider>; }
 

@@ -4,8 +4,8 @@ body:has(.home-shell) { background: var(--home-paper); }
 .home-shell .site-header { margin-bottom: 12px; border: 0; padding-top: 22px; }
 
 .home-shell .coin-balance .reward-number { font-family: var(--font-body); font-size: 1.5rem; }
-.home-shell .navigation { gap: 28px; }
-.home-shell .site-footer { display: none; }
+
+
 .home-world { padding-bottom: 48px; }
 .home-header-actions { display: flex; justify-content: end; margin: 0; }
 .home-header-actions a, .home-header-actions button { width: 48px; height: 48px; display: grid; place-items: center; color: var(--home-ink); border: 0; background: transparent; border-radius: 50%; }
@@ -34,7 +34,7 @@ body:has(.home-shell) { background: var(--home-paper); }
 .home-settings-fields label { display: grid; gap: 5px; font-weight: 800; }
 .home-settings-fields input { font: inherit; padding: 10px; border: 2px solid var(--home-line); background: var(--home-paper); border-radius: 8px; width: 100%; }
 @media (max-width: 760px) {
-  .home-shell { padding: 0 20px 90px; }
+  .home-shell { padding: 0 20px; }
   .home-shell .site-header { padding-top: 12px; }
 
   .home-profile { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 20px 16px; }

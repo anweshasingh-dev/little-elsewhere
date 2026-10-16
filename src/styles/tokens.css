@@ -1,5 +1,5 @@
 :root {
-  --color-paper: #fbf6e9; --color-surface: #fffdf6; --color-meadow: #dde9d2;
+  --color-paper: #f8f1e0; --color-surface: #fffdf6; --color-meadow: #dde9d2;
   --color-sage: #a8c18d; --color-forest: #4f604d; --color-ink: #293d30;
   --color-peach: #e9b49a; --color-brown: #a77a61; --color-sunshine: #f1d37c;
   --color-clay: #853c2c; --color-sky: #e5ece5;
@@ -17,7 +17,7 @@
 
 /* Storybook palette: consumed only by the Home composition. */
 :root {
-  --home-paper: #fbf6e9; --home-ink: #465543; --home-sage: #e1e8d3;
+  --home-paper: var(--color-paper); --home-ink: #465543; --home-sage: #e1e8d3;
   --home-matcha: #a7bd8f; --home-lavender: #e8e0ee; --home-sky: #dfedf1;
   --home-yellow: #f1dfa0; --home-line: #b5bda3;
 }

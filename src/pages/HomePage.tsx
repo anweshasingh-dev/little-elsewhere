@@ -44,6 +44,7 @@ export function HomePage() {
 
     <ConfirmDialog open={settings} title="Your explorer" description="Keep a name and age in this browser." confirmLabel="Save profile" cancelLabel="Cancel" onCancel={() => setSettings(false)} onConfirm={() => { if (!profileForm.current?.reportValidity()) return; dispatch({ type: 'set-home-profile', name: name.trim(), age: age ? Number(age) : undefined }); setSettings(false); }}>
       <form ref={profileForm} className="home-settings-fields" onSubmit={(event) => event.preventDefault()}><label>Name<input maxLength={40} value={name} onChange={(event) => setName(event.target.value)}/></label><label>Age<input type="number" min="1" max="18" value={age} onChange={(event) => setAge(event.target.value)}/></label></form>
+      <section className="settings-help" aria-labelledby="settings-help-title"><h3 id="settings-help-title">How to play</h3><ul><li><strong>Bingo:</strong> Find each discovery, then draw an X on its tile.</li><li><strong>Quests:</strong> Choose a quest, explore, mark it complete, then collect your coins.</li><li>Explore safely with a grown-up. Indoor discoveries count too.</li></ul><p className="fine-print">Each adventure earns coins once. Starting a new board keeps your coins. Progress is saved in this browser when saving is available.</p></section>
     </ConfirmDialog>
   </div>;
 }
