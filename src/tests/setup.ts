@@ -18,3 +18,12 @@ afterEach(() => {
   localStorage.clear();
   window.history.replaceState(null, '', '/');
 });
+if (!window.PointerEvent) {
+  class TestPointerEvent extends MouseEvent {
+    pointerId: number; isPrimary: boolean; pointerType: string;
+    constructor(type: string, init: PointerEventInit = {}) {
+      super(type, init); this.pointerId = init.pointerId ?? 1; this.isPrimary = init.isPrimary ?? true; this.pointerType = init.pointerType ?? 'mouse';
+    }
+  }
+  Object.defineProperty(window, 'PointerEvent', { value: TestPointerEvent });
+}

@@ -6,7 +6,16 @@ import { STORAGE_KEY } from '../persistence/storage';
 
 function openPage(hash: string) { window.history.replaceState(null, '', hash); return render(<App />); }
 function coinCount() { return screen.getByTestId('coin-balance').textContent; }
-function mark(label: string) { fireEvent.click(screen.getByRole('button', { name: new RegExp(`^${label}:`) })); }
+function mark(label: string) {
+  const undo = screen.queryByRole('button', { name: new RegExp(`^${label}:`) });
+  if (undo) { fireEvent.click(undo); return; }
+  const svg = screen.getByRole('img', { name: `Draw an X for ${label}` });
+  vi.spyOn(svg, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 100, 100));
+  for (const [start, end] of [[[20, 20], [80, 80]], [[20, 80], [80, 20]]]) {
+    fireEvent.pointerDown(svg, { pointerId: 1, isPrimary: true, button: 0, clientX: start[0], clientY: start[1] });
+    fireEvent.pointerUp(svg, { pointerId: 1, isPrimary: true, button: 0, clientX: end[0], clientY: end[1] });
+  }
+}
 
 describe('MVP journeys', () => {
   it('restores bingo rewards across remount and prevents undo/reset duplicates', () => {
@@ -27,7 +36,7 @@ describe('MVP journeys', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Start a fresh board' }));
     expect(screen.getByRole('progressbar').getAttribute('value')).toBe('0');
     expect(coinCount()).toBe('10');
-    for (const button of screen.getAllByRole('button').filter((button) => button.hasAttribute('aria-pressed'))) fireEvent.click(button);
+    for (const svg of screen.getAllByRole('img', { name: /^Draw an X for / })) mark(svg.getAttribute('aria-label')!.replace('Draw an X for ', ''));
     expect(coinCount()).toBe('30');
     expect(screen.getByText('A whole board of wonders. You did it!')).toBeTruthy();
   });
@@ -63,7 +72,7 @@ describe('MVP journeys', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Confirm reset' }));
     fireEvent.click(screen.getByRole('button', { name: "Let's explore" }));
     expect(coinCount()).toBe('0');
-    expect(screen.getByRole('button', { name: /^Find a leaf:/ })).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'Draw an X for Find a leaf' })).toBeTruthy();
   });
   it('shows unsaved progress and retries the latest state without duplicate awards', () => {
     const write = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new DOMException('Full', 'QuotaExceededError'); });
@@ -83,7 +92,7 @@ describe('MVP journeys', () => {
     localStorage.setItem(STORAGE_KEY, raw);
     act(() => window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY, newValue: raw })));
     expect(screen.getByText('Progress changed in another tab')).toBeTruthy();
-    expect(screen.getByRole('button', { name: /^Find a leaf:/ }).closest('fieldset')?.disabled).toBe(true);
+    expect(screen.getByRole('img', { name: 'Draw an X for Find a leaf' }).closest('fieldset')?.disabled).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Reload saved progress' }));
     fireEvent.click(screen.getByRole('button', { name: 'Confirm reload' }));
     expect(screen.queryByText('Progress changed in another tab')).toBeNull();

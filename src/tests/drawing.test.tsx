@@ -8,15 +8,6 @@ import { loadState, STORAGE_KEY } from '../persistence/storage';
 import { validateState } from '../persistence/validation';
 import type { Stroke } from '../features/bingo/drawing';
 
-if (!window.PointerEvent) {
-  class TestPointerEvent extends MouseEvent {
-    pointerId: number; isPrimary: boolean; pointerType: string;
-    constructor(type: string, init: PointerEventInit = {}) {
-      super(type, init); this.pointerId = init.pointerId ?? 1; this.isPrimary = init.isPrimary ?? true; this.pointerType = init.pointerType ?? 'mouse';
-    }
-  }
-  Object.defineProperty(window, 'PointerEvent', { value: TestPointerEvent });
-}
 const diagonals = accessibleX();
 function openBingo() { window.history.replaceState(null, '', '#/bingo'); return render(<App />); }
 function surface() {
@@ -54,7 +45,7 @@ describe('deliberate X recognition', () => {
   });
 });
 
-describe('pointer drawing and accessible completion', () => {
+describe('pointer drawing completion', () => {
   it.each(['mouse', 'touch', 'pen'])('draws real %s strokes and preserves them on reload', (pointerType) => {
     const app = openBingo(); const svg = surface();
     draw(svg, diagonals[0], pointerType);
@@ -70,10 +61,12 @@ describe('pointer drawing and accessible completion', () => {
   });
   it('keeps palette marks stable through refresh, undo, and re-completion with icon-only undo', () => {
     const app = openBingo();
-    const labels = ['Find a leaf', 'Spot a cloud', 'Something yellow', 'Notice a bird', 'Find a flower'];
-    const colors = ['rgb(185, 204, 137)', 'rgb(182, 214, 213)', 'rgb(238, 208, 89)', 'rgb(175, 193, 112)', 'rgb(112, 192, 184)'];
+    const labels = ['Find a leaf', 'Spot a cloud', 'Something yellow', 'Notice a bird', 'Find a flower', 'A nature sound'];
+    const colors = ['rgb(185, 204, 137)', 'rgb(182, 214, 213)', 'rgb(238, 208, 89)', 'rgb(175, 193, 112)', 'rgb(112, 192, 184)', 'rgb(244, 184, 202)'];
     labels.forEach((label, index) => {
-      fireEvent.click(screen.getByRole('button', { name: new RegExp(`^${label}:`) }));
+      const svg = screen.getByRole('img', { name: `Draw an X for ${label}` });
+      vi.spyOn(svg, 'getBoundingClientRect').mockReturnValue(new DOMRect(0, 0, 200, 200));
+      diagonals.forEach((stroke) => draw(svg, stroke));
       const undo = screen.getByRole('button', { name: new RegExp(`^${label}:.*Undo completion`) });
       expect(undo.textContent).toBe('');
       expect(undo.title).toBe('Undo completion');
@@ -86,15 +79,15 @@ describe('pointer drawing and accessible completion', () => {
     fireEvent.click(screen.getByRole('button', { name: /^Find a leaf:/ }));
     expect(mark().querySelectorAll('polyline')).toHaveLength(0);
     expect(saved().bingoBoard.cells[0].completed).toBe(false);
-    fireEvent.click(screen.getByRole('button', { name: /^Find a leaf:/ }));
+    diagonals.forEach((stroke) => draw(surface(), stroke));
     expect(mark().querySelector('polyline')?.getAttribute('style')).toContain(colors[0]);
     expect(coinBalance(saved())).toBe(10);
   });
-  it('taps artwork to toggle but does not toggle after a drawing gesture', () => {
+  it('ignores taps on artwork and labels before and after drawing', () => {
     openBingo(); const svg = surface();
     fireEvent.click(svg);
-    expect(saved().bingoBoard.cells[0].completed).toBe(true);
-    fireEvent.click(svg);
+    fireEvent.click(screen.getByText('Find a leaf'));
+    expect(screen.queryByRole('button', { name: /mark complete/i })).toBeNull();
     expect(saved().bingoBoard.cells[0].completed).toBe(false);
     draw(svg, diagonals[0]); fireEvent.click(svg);
     expect(saved().bingoBoard.cells[0].completed).toBe(false);
@@ -113,11 +106,11 @@ describe('pointer drawing and accessible completion', () => {
     expect(svg.querySelectorAll('polyline')).toHaveLength(0);
     expect(saved().bingoBoard.cells[0].completed).toBe(false);
   });
-  it('can clear partial ink and use Mark/Undo without drawing', () => {
+  it('can clear partial ink and undo a drawn completion', () => {
     openBingo(); const svg = surface(); draw(svg, diagonals[0]);
     fireEvent.click(screen.getByRole('button', { name: 'Clear drawing for Find a leaf' }));
     expect(saved().bingoBoard.cells[0].strokes).toEqual([]);
-    fireEvent.click(screen.getByRole('button', { name: /^Find a leaf:/ }));
+    diagonals.forEach((stroke) => draw(svg, stroke));
     expect(saved().bingoBoard.cells[0].completed).toBe(true);
     expect(saved().bingoBoard.cells[0].strokes).toEqual(accessibleX());
     fireEvent.click(screen.getByRole('button', { name: /^Find a leaf:/ }));
