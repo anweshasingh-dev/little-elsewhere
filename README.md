@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="public/screenshots/home-desktop.png"><img src="public/screenshots/home-desktop.png" alt="Updated Little Elsewhere homepage with illustrated banner, explorer profile, mood choices, Bingo and Quest invitations, featured adventure, journal, and backpack" width="900" /></a>
+  <a href="public/screenshots/home-desktop.png"><img src="public/screenshots/home-desktop.png" alt="Updated Little Elsewhere homepage with button navigation, illustrated footer, explorer profile, mood choices, Bingo and Quest invitations, featured adventure, journal, and backpack" width="900" /></a>
 </p>
 
 ## Why Little Elsewhere?
@@ -32,9 +32,9 @@ Little Elsewhere gives children a gentle prompt, then a place to record what the
 | **Little Quests** | Explore eight activities with a Choose / Explore / Collect trail, directions, and indoor or adapted alternatives. |
 | **Coins** | Collect rewards for a first Bingo line, a first full board, and completed quests. |
 | **Journal and backpack** | Revisit recent adventures, nature finds, and three earned milestones on Home. |
-| **A helping hand** | Reopen the play guide, read friendly safety reminders, and use touch or keyboard controls. |
+| **A helping hand** | Read brief play instructions in Home settings, follow friendly safety reminders, and use touch or keyboard controls. |
 
-A shared illustrated banner ties the pages together. Desktop layouts give the artwork room to breathe; mobile layouts stack naturally and keep navigation within reach.
+A full-width illustrated footer blends into the warm sky-coloured background on every page. Desktop layouts give the artwork room to breathe; mobile layouts stack naturally and keep navigation within reach.
 
 ### A little recognition, without an endless loop
 
@@ -67,7 +67,7 @@ flowchart TD
 
 ## A peek inside
 
-Actual browser captures of the current interface, refreshed **14 October 2026**. The screenshots use the default explorer, with Calm selected and no completed activities.
+Actual browser captures of the current interface, refreshed **16 October 2026**. The screenshots use the default explorer, with Calm selected and no completed activities.
 
 | Nature Bingo | Little Quests |
 | :---: | :---: |
@@ -82,7 +82,7 @@ Actual browser captures of the current interface, refreshed **14 October 2026**.
   <tr><th>Home</th><th>Bingo</th><th>Quests</th></tr>
   <tr>
     <td valign="top"><a href="public/screenshots/home-mobile.png"><img src="public/screenshots/home-mobile.png" alt="Mobile Home with explorer profile, mood choices, journal, and backpack" width="260" /></a></td>
-    <td valign="top"><a href="public/screenshots/bingo-mobile.png"><img src="public/screenshots/bingo-mobile.png" alt="Mobile Bingo with large activity illustrations, Mark controls, and bottom navigation" width="260" /></a></td>
+    <td valign="top"><a href="public/screenshots/bingo-mobile.png"><img src="public/screenshots/bingo-mobile.png" alt="Mobile Bingo with large activity illustrations, drawing controls, top button navigation, and an illustrated footer" width="260" /></a></td>
     <td valign="top"><a href="public/screenshots/quests-mobile.png"><img src="public/screenshots/quests-mobile.png" alt="Mobile Quests stacked into a single column with illustrated progress trails" width="260" /></a></td>
   </tr>
 </table>
@@ -126,7 +126,7 @@ The app uses one reducer and React context for profile choices, Bingo, quests, a
 
 | Folder | Responsibility |
 | --- | --- |
-| `src/pages` and `src/components` | Pages, shared banner, controls, profile, journal, and backpack. |
+| `src/pages` and `src/components` | Pages, shared footer, controls, profile, journal, and backpack. |
 | `src/features` | Bingo drawing and line detection, quest cards, and reward rules. |
 | `src/data` | Quest definitions, Bingo activities, and explorer portraits. |
 | `src/app` and `src/persistence` | State transitions, routing, validation, migrations, and browser saves. |
